@@ -13,14 +13,14 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 <div class="nav"><div class="in"><a href="./">오캔스픽</a><small>ViBiVi Science Lab</small></div></div>
 <main>
 <h1>오캔스픽 개인정보처리방침</h1>
-<div class="meta">시행일 2026년 __월 __일 <span class="todo">[확인] 시행일 · 결제대행사 · 클라우드 업체명은 결정 후 채워 주세요</span></div>
+<div class="meta">시행일 2026년 9월 11일</div>
 <p>바이비바이 사이언스랩(이하 "회사")은 「개인정보 보호법」에 따라 이용자의 개인정보를 보호하고 관련 고충을 신속히 처리하기 위하여 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
 
 <h2>1. 수집하는 개인정보의 항목과 방법</h2>
 <table><tr><th>구분</th><th>항목</th><th>수집 방법</th></tr>
 <tr><td>회원가입 (필수)</td><td>이메일 주소, 로그인 제공자(네이버·Google·Apple) 식별자, 닉네임</td><td>이용자 입력, 소셜 로그인</td></tr>
 <tr><td>서비스 이용 시 생성</td><td>학습 데이터(시험 기록·점수, 표현 진도, 오답 노트, 자율학습 스크립트, 배경 설문 선택값, 학습 시간), 기기·앱 버전, 오류 로그</td><td>서비스 이용 과정에서 자동 생성</td></tr>
-<tr><td>유료 결제 시</td><td>결제 승인 정보(결제대행사 제공 거래번호·결제수단 종류·금액). 카드번호 등 결제 정보 자체는 회사가 저장하지 않음</td><td>결제대행사 <span class="todo">[확인]</span></td></tr>
+<tr><td>유료 결제 시</td><td>결제 승인 정보(거래번호·결제수단 종류·금액·결제일시), 무통장입금 시 입금자명과 환불 계좌. 카드번호 등 결제 정보 자체는 회사가 저장하지 않음</td><td>결제대행사(토스페이먼츠) 결제창</td></tr>
 <tr><td>문의 시</td><td>이메일 주소, 문의 내용, 이용자가 첨부한 진단 로그</td><td>이메일</td></tr>
 </table>
 
@@ -51,12 +51,16 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 <h2>5. 개인정보의 제3자 제공과 처리 위탁</h2>
 <p>회사는 이용자의 동의 없이 개인정보를 제3자에게 제공하지 않습니다. 서비스 운영을 위해 다음 업무를 위탁합니다.</p>
 <table><tr><th>수탁자</th><th>위탁 업무</th></tr>
-<tr><td><span class="todo">[확인] 클라우드/인증 서비스 (예: Google Firebase 또는 Supabase)</span></td><td>회원 인증, 학습 데이터 저장 및 동기화</td></tr>
-<tr><td><span class="todo">[확인] 결제대행사</span></td><td>유료 서비스 결제 처리</td></tr>
+<tr><td>Supabase, Inc. (서버 위치: 대한민국 서울 리전)</td><td>회원 인증, 학습 데이터·라이선스 정보 저장 및 동기화</td></tr>
+<tr><td>토스페이먼츠 주식회사</td><td>신용·체크카드, 네이버페이, 카카오페이, 토스페이, 가상계좌 결제 처리</td></tr>
 <tr><td>Vercel Inc.</td><td>홈페이지 호스팅</td></tr>
 <tr><td>GitHub, Inc.</td><td>프로그램 설치 파일 및 음성 모델 배포</td></tr>
 </table>
-<p>위탁 업체가 국외에 있는 경우, 이전되는 항목·국가·시점·방법·보유 기간을 이 방침에 명시하고 법령이 정한 바에 따라 처리합니다. <span class="todo">[확인] 국외 이전 항목</span></p>
+<p><b>개인정보의 국외 이전.</b> 회원 정보와 학습 데이터는 국내(서울) 서버에 저장되며 국외로 이전하지 않습니다. 다만 다음 서비스는 국외 사업자가 운영하므로 해당 범위에서 정보가 국외에서 처리됩니다.</p>
+<table><tr><th>이전받는 자</th><th>국가</th><th>이전 항목</th><th>시점·방법</th><th>보유 기간</th></tr>
+<tr><td>Vercel Inc.</td><td>미국</td><td>홈페이지 접속 시 IP 주소·브라우저 정보(접속 로그)</td><td>홈페이지 접속 시 네트워크를 통해 전송</td><td>Vercel 로그 보관 정책에 따름(최대 30일)</td></tr>
+<tr><td>GitHub, Inc.</td><td>미국</td><td>설치 파일·음성 모델 내려받을 때의 IP 주소</td><td>다운로드 시 네트워크를 통해 전송</td><td>GitHub 정책에 따름</td></tr></table>
+<p>이용자는 국외 이전을 거부할 수 있으나, 이 경우 홈페이지 접속과 프로그램 다운로드가 제한됩니다. 거부는 wichonl@vibivi.co.kr 로 요청할 수 있습니다.</p>
 
 <h2>6. 이용자의 권리와 행사 방법</h2>
 <p>이용자는 언제든지 자신의 개인정보를 열람·정정·삭제하거나 처리 정지를 요구할 수 있습니다. 서비스 내 설정 → 계정에서 닉네임 변경·로그아웃·계정 삭제를 직접 할 수 있으며, 그 밖의 요청은 wichonl@vibivi.co.kr 로 보내 주시면 10일 이내에 처리합니다. 학습 데이터는 설정 → 내보내기로 파일로 받아 갈 수 있습니다.</p>
@@ -82,9 +86,9 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 
 <h2>12. 방침의 변경</h2>
 <p>이 방침의 내용이 추가·삭제·수정되는 경우 시행 7일 전부터 홈페이지와 서비스 내에 공지합니다.</p>
-<p>공고일 2026년 __월 __일 · 시행일 2026년 __월 __일</p>
+<p>공고일 2026년 9월 11일 · 시행일 2026년 9월 11일</p>
 </main>
 <footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>
 서울특별시 강남구 논현로75길 15, 5층 501호 (역삼동, 역삼동 수양빌딩) · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a><br>
-<a href="terms.html">이용약관</a> · <a href="privacy.html">개인정보처리방침</a> · © 2026 ViBiVi Science Lab</footer>
+<a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a> · © 2026 ViBiVi Science Lab</footer>
 </body></html>
