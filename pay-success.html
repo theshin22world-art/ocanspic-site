@@ -42,9 +42,9 @@ window.OC=(function(){
       sb.auth.signInWithOAuth({provider:p,options:{redirectTo:here}}); }; });
     var go=el.querySelector('#emGo'), inp=el.querySelector('#emIn');
     function submit(){ var v=inp.value.trim();
-      if(code){ if(!/^\d{6}$/.test(v)) return; go.disabled=true; sb.auth.verifyOtp({email:email,token:v,type:'email'}).then(function(r){ go.disabled=false; if(r.error){ alert('코드가 맞지 않습니다: '+r.error.message); return; } location.reload(); }); return; }
+      if(code){ if(!/^\d{6,10}$/.test(v)) return; go.disabled=true; sb.auth.verifyOtp({email:email,token:v,type:'email'}).then(function(r){ go.disabled=false; if(r.error){ alert('코드가 맞지 않습니다: '+r.error.message); return; } location.reload(); }); return; }
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return; go.disabled=true;
-      sb.auth.signInWithOtp({email:v,options:{shouldCreateUser:true}}).then(function(r){ go.disabled=false; if(r.error){ alert(r.error.message); return; } email=v; code=true; inp.value=''; inp.type='text'; inp.placeholder='메일로 받은 6자리 코드'; go.textContent='확인'; inp.focus(); }); }
+      sb.auth.signInWithOtp({email:v,options:{shouldCreateUser:true}}).then(function(r){ go.disabled=false; if(r.error){ alert(r.error.message); return; } email=v; code=true; inp.value=''; inp.type='text'; inp.placeholder='메일로 받은 코드(숫자)'; go.textContent='확인'; inp.focus(); }); }
     go.onclick=submit; inp.onkeydown=function(e){ if(e.key==='Enter') submit(); };
   }
   /* 네이버 콜백(token_hash) */
