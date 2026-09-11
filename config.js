@@ -2,7 +2,7 @@
 window.OCAN_CONFIG = {
   SUPABASE_URL: '',        // https://xxxx.supabase.co
   SUPABASE_ANON_KEY: '',   // Supabase → Settings → API → anon public
-  TOSS_CLIENT_KEY: '',     // 토스페이먼츠 → 개발자센터 → API 키 → 클라이언트 키 (live_ck_… / 테스트는 test_ck_…)
+  TOSS_CLIENT_KEY: 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm',     // 토스페이먼츠 → 개발자센터 → API 키 → 클라이언트 키 (live_ck_… / 테스트는 test_ck_…)
   PLAN: { id: '3m', name: '오캔스픽 3개월 이용권', amount: 87000, days: 90 },
   BASE: 'https://www.vibivi.co.kr/ocanspic',
   NAVER_LOGIN: true        // naver-auth 엣지 함수를 배포했으면 true
