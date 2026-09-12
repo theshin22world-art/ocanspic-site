@@ -39,7 +39,7 @@ window.OC=(function(){
     el.querySelectorAll('[data-p]').forEach(function(b){ b.onclick=function(){ var p=b.dataset.p;
       if(p==='email'){ var x=el.querySelector('#emBox'); x.style.display=x.style.display==='none'?'flex':'none'; return; }
       if(p==='naver'){ location.href=C.SUPABASE_URL+'/functions/v1/naver-auth?redirect='+encodeURIComponent(here); return; }
-      sb.auth.signInWithOAuth({provider:p,options:{redirectTo:here}}); }; });
+      sb.auth.signInWithOAuth({provider:p,options:{redirectTo:here,queryParams:p==='google'?{prompt:'select_account'}:undefined}}); }; });
     var go=el.querySelector('#emGo'), inp=el.querySelector('#emIn');
     function submit(){ var v=inp.value.trim();
       if(code){ if(!/^\d{6,10}$/.test(v)) return; go.disabled=true; sb.auth.verifyOtp({email:email,token:v,type:'email'}).then(function(r){ go.disabled=false; if(r.error){ alert('코드가 맞지 않습니다: '+r.error.message); return; } location.reload(); }); return; }
@@ -63,18 +63,18 @@ window.OC=(function(){
 <div class="k">OCANSPIC PASS</div>
 <h1>이용권 구매</h1>
 <p class="sub">결제가 끝나면 앱에서 «이미 구매했어요»를 누르거나 다시 로그인하면 바로 열립니다.</p>
-<div class="card"><div class="plan"><div><b id="planName">오캔스픽 3개월 이용권</b><ul class="chk"><li>필수표현 1,400개 말하기 채점</li><li>무한 트레이닝 · 듣기 L1~L5 · 자율학습</li><li>15문항 풀세트 모의고사 무제한</li><li>동시 2대 기기 (데스크톱 + 폰)</li></ul></div><div class="price" id="planPrice">87,000원<br><small>부가세 포함 · 90일</small></div></div></div>
+<div class="card"><div class="plan"><div><b id="planName">오캔스픽 3개월 이용권</b><ul class="chk"><li>필수표현 1,400개 말하기 채점</li><li>무한 트레이닝 · 듣기 L1~L5 · 자율학습</li><li>15문항 풀세트 모의고사 무제한</li><li>동시 2대 기기 (데스크톱 + 폰)</li></ul></div><div class="price" id="planPrice">112,500원<br><small>부가세 포함 · 90일</small></div></div></div>
 <div class="card" id="step1"><div class="k" style="margin-bottom:8px">STEP 1 · 계정</div><div id="authBox"></div></div>
 <div class="card" id="step2" style="display:none"><div class="k" style="margin-bottom:8px">STEP 2 · 결제</div>
   <div id="pm"></div><div id="ag"></div>
-  <button class="btn big" id="payBtn" style="margin-top:14px">87,000원 결제하기</button>
+  <button class="btn big" id="payBtn" style="margin-top:14px">112,500원 결제하기</button>
   <div class="note">이용 전 7일 이내 전액 환불, 이용 후에는 남은 일수만큼 일할 환불됩니다. 무통장입금(가상계좌)은 입금이 확인되는 즉시 이용권이 열립니다.</div>
 </div>
 <div class="card" id="cfgWarn" style="display:none"><b class="err">결제 페이지 설정이 아직 비어 있습니다.</b><p class="sub" style="margin:6px 0 0">config.js 에 SUPABASE_URL · SUPABASE_ANON_KEY · TOSS_CLIENT_KEY 를 채우면 이 페이지가 동작합니다.</p></div>
 <script src="https://js.tosspayments.com/v2/standard"></script>
 <script>
 (function(){
-  var C=OC.C, P=C.PLAN||{id:'3m',name:'오캔스픽 3개월 이용권',amount:87000,days:90};
+  var C=OC.C, P=C.PLAN||{id:'3m',name:'오캔스픽 3개월 이용권',amount:112500,days:90};
   document.getElementById('planName').textContent=P.name; document.getElementById('planPrice').innerHTML=P.amount.toLocaleString()+'원<br><small>부가세 포함 · '+P.days+'일</small>'; document.getElementById('payBtn').textContent=P.amount.toLocaleString()+'원 결제하기';
   if(!OC.sb||!C.TOSS_CLIENT_KEY){ document.getElementById('cfgWarn').style.display=''; document.getElementById('step1').style.display='none'; return; }
   OC.user().then(function(u){
