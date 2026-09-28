@@ -53,7 +53,9 @@ window.OC=(function(){
   var ready=Promise.resolve();
   if(sb&&q.get('token_hash')) ready=sb.auth.verifyOtp({token_hash:q.get('token_hash'),type:q.get('type')||'magiclink'}).then(function(){ history.replaceState(null,'',location.pathname); });
   return { sb:sb, C:C, loginHTML:loginHTML, wire:wire, ready:ready,
-    user:function(){ return ready.then(function(){ return sb?sb.auth.getSession().then(function(r){ return r.data.session&&r.data.session.user||null; }):null; }); },
+    /* 브라우저에 남은 로그인이 서버에서 이미 삭제된 계정이면(계정 삭제 등) 로그아웃하고 다시 로그인하게 한다 */
+    user:function(){ return ready.then(function(){ if(!sb) return null; return sb.auth.getSession().then(function(r){ var u=r.data.session&&r.data.session.user; if(!u) return null;
+      return sb.auth.getUser().then(function(g){ if(g.error||!g.data||!g.data.user){ return sb.auth.signOut().catch(function(){}).then(function(){ return null; }); } return g.data.user; }).catch(function(){ return u; }); }); }); },
     token:function(){ return sb.auth.getSession().then(function(r){ return r.data.session&&r.data.session.access_token; }); },
     signOut:function(){ return sb.auth.signOut().then(function(){ location.reload(); }); } };
 })();
@@ -117,7 +119,7 @@ window.OC=(function(){
         var btn=this; btn.disabled=true;
         var orderId='ocan_'+(crypto.randomUUID?crypto.randomUUID().replace(/-/g,''):Date.now()+''+Math.random().toString(36).slice(2));
         OC.sb.from('orders').insert({id:orderId,user_id:u.id,amount:P.amount,plan:P.id,status:'ready'}).then(function(r){
-          if(r.error){ alert('주문 생성 실패: '+r.error.message); btn.disabled=false; return; }
+          if(r.error){ if(/foreign key|orders_user_id_fkey/i.test(r.error.message||'')){ alert('로그인 정보가 만료되었거나 삭제된 계정입니다. 다시 로그인해 주세요.'); OC.sb.auth.signOut().finally(function(){ location.reload(); }); return; } alert('주문 생성 실패: '+r.error.message); btn.disabled=false; return; }
           return widgets.requestPayment({orderId:orderId,orderName:P.name,successUrl:(C.BASE||location.origin)+'/pay-success',failUrl:(C.BASE||location.origin)+'/pay-fail',customerEmail:u.email,customerName:(u.user_metadata&&u.user_metadata.name)||'고객'});
         }).catch(function(e){ btn.disabled=false; if(e&&e.code!=='USER_CANCEL') alert(e.message||e); });
       };
