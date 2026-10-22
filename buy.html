@@ -36,15 +36,20 @@ window.OC=(function(){
     +'<div class="row" id="emBox" style="display:none"><input id="emIn" type="email" placeholder="이메일 주소"><button class="btn" id="emGo">계속</button></div>'
     +'<p class="sub" style="text-align:center;font-size:12.5px;margin:6px 0 0">앱에서 쓰는 계정과 같은 계정으로 로그인하세요. 이용권은 이 계정에 붙습니다.</p></div>'; }
   function wire(el){
-    var code=false,email='';
+    var code=false,email='',pw=false;
+    /* 심사용 계정(토스페이먼츠·앱스토어 심사원): 이 주소만 메일 코드 대신 비밀번호로 로그인 (앱의 CLOUD.reviewEmails 와 같은 목록) */
+    var REVIEW=(C.reviewEmails||['happycat@vibivi.co.kr','tossreview@vibivi.co.kr']).map(function(x){ return String(x).toLowerCase(); });
     el.querySelectorAll('[data-p]').forEach(function(b){ b.onclick=function(){ var p=b.dataset.p;
       if(p==='email'){ var x=el.querySelector('#emBox'); x.style.display=x.style.display==='none'?'flex':'none'; return; }
       if(p==='naver'){ location.href=C.SUPABASE_URL+'/functions/v1/naver-auth?redirect='+encodeURIComponent(here); return; }
       sb.auth.signInWithOAuth({provider:p,options:{redirectTo:here,queryParams:p==='google'?{prompt:'select_account'}:undefined}}); }; });
     var go=el.querySelector('#emGo'), inp=el.querySelector('#emIn');
     function submit(){ var v=inp.value.trim();
+      if(pw){ if(!v) return; go.disabled=true; sb.auth.signInWithPassword({email:email,password:v}).then(function(r){ go.disabled=false; if(r.error){ alert('비밀번호가 맞지 않습니다: '+r.error.message); return; } location.reload(); }); return; }
       if(code){ if(!/^\d{6,10}$/.test(v)) return; go.disabled=true; sb.auth.verifyOtp({email:email,token:v,type:'email'}).then(function(r){ go.disabled=false; if(r.error){ alert('코드가 맞지 않습니다: '+r.error.message); return; } location.reload(); }); return; }
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return; go.disabled=true;
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return;
+      if(REVIEW.indexOf(v.toLowerCase())>=0){ email=v; pw=true; inp.value=''; inp.type='password'; inp.placeholder='비밀번호'; go.textContent='로그인'; inp.focus(); return; }
+      go.disabled=true;
       sb.auth.signInWithOtp({email:v,options:{shouldCreateUser:true}}).then(function(r){ go.disabled=false; if(r.error){ alert(r.error.message); return; } email=v; code=true; inp.value=''; inp.type='text'; inp.placeholder='메일로 받은 코드(숫자)'; go.textContent='확인'; inp.focus(); }); }
     go.onclick=submit; inp.onkeydown=function(e){ if(e.key==='Enter') submit(); };
   }
