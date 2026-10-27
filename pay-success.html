@@ -14,7 +14,7 @@ ul.chk{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;color:var(
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;font-size:15px}
 .btn.big{width:100%;padding:16px;font-size:17px;background:var(--orange)}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn:disabled{opacity:.5;cursor:default}
 .lg{display:grid;gap:10px;max-width:420px;margin:0 auto}.lgb{display:flex;align-items:center;justify-content:center;height:50px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:600;cursor:pointer;font:inherit;font-size:15px}
-.lgb.naver{background:#03C75A;color:#fff;border-color:#03C75A}.lgb.apple{background:#000;color:#fff;border-color:#000}.lgb.email{border-style:dashed;color:var(--mute)}
+.lgb.naver{background:#03C75A;color:#fff;border-color:#03C75A}.lgb.apple{background:#000;color:#fff;border-color:#000}.lgb.email{border-style:dashed;color:var(--mute)}.lgb.kakao{background:#FEE500;color:#191919;border-color:#FEE500}
 .row{display:flex;gap:8px}.row input{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:15px}
 .me{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--ink2);font-size:14px;flex-wrap:wrap}.me b{color:var(--ink)}
 .note{background:#F1EFFA;border-left:3px solid var(--orange);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:#4E4587;margin-top:14px}
@@ -30,7 +30,7 @@ window.OC=(function(){
   var here=location.origin+location.pathname;
   function loginHTML(){ return '<div class="lg">'
     +(C.NAVER_LOGIN?'<button class="lgb naver" data-p="naver">네이버로 로그인</button>':'')
-    +'<button class="lgb" data-p="google">Google로 로그인</button><button class="lgb apple" data-p="apple">Apple로 로그인</button>'
+    +'<button class="lgb" data-p="google">Google로 로그인</button><button class="lgb apple" data-p="apple">Apple로 로그인</button><button class="lgb kakao" data-p="kakao">카카오로 로그인</button>'
     +'<button class="lgb email" data-p="email">이메일로 가입 또는 로그인</button>'
     +'<div class="row" id="emBox" style="display:none"><input id="emIn" type="email" placeholder="이메일 주소"><button class="btn" id="emGo">계속</button></div>'
     +'<p class="sub" style="text-align:center;font-size:12.5px;margin:6px 0 0">앱에서 쓰는 계정과 같은 계정으로 로그인하세요. 이용권은 이 계정에 붙습니다.</p></div>'; }
@@ -66,19 +66,19 @@ window.OC=(function(){
 <div class="card" id="box"></div>
 <script>
 (function(){
-  var q=new URLSearchParams(location.search), pk=q.get('paymentKey'), oid=q.get('orderId'), amt=q.get('amount');
+  var q=new URLSearchParams(location.search), oid=q.get('paymentId');
+  /* 포트원 모바일: 실패·취소도 이 주소로 돌아온다(code·message) → 실패 화면으로 */
+  if(q.get('code')){ location.replace('pay-fail'+location.search); return; }
   var H=document.getElementById('h'),Pp=document.getElementById('p'),B=document.getElementById('box');
   if(!OC.sb){ H.textContent='설정이 비어 있습니다'; return; }
   OC.token().then(function(tk){
     if(!tk){ H.textContent='로그인이 풀렸습니다'; Pp.textContent='결제한 계정으로 다시 로그인하면 승인을 마무리합니다.'; B.innerHTML=OC.loginHTML(); OC.wire(B); return; }
-    return fetch(OC.C.SUPABASE_URL+'/functions/v1/toss-confirm',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify({paymentKey:pk,orderId:oid,amount:Number(amt)})})
+    return fetch(OC.C.SUPABASE_URL+'/functions/v1/portone-confirm',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify({paymentId:oid})})
       .then(function(r){ return r.json(); }).then(function(d){
         if(d.error){ H.innerHTML='<span class="err">승인에 실패했습니다</span>'; Pp.textContent=d.error; B.innerHTML='<a class="btn" href="buy">다시 시도</a> <a class="btn ghost" href="mailto:wichonl@vibivi.co.kr?subject=결제 문의 '+oid+'">문의하기</a>'; return; }
-        if(d.waiting){ var va=d.virtualAccount||{}; H.textContent='입금 계좌가 발급되었습니다'; Pp.textContent='입금이 확인되는 즉시 이용권이 열립니다(보통 1~2분).';
-          B.innerHTML='<p><b>'+(va.bankCode||'')+' '+(va.accountNumber||'')+'</b><br>예금주 '+(va.customerName||'')+' · 입금 기한 '+(va.dueDate||'').replace('T',' ').slice(0,16)+'</p><p class="sub">입금 후 앱에서 «이미 구매했어요»를 누르세요.</p>'; return; }
         var end=d.license&&d.license.ends_at?new Date(d.license.ends_at):null;
         H.innerHTML='<span class="ok">결제가 완료되었습니다</span>'; Pp.textContent='이용권이 계정에 붙었습니다'+(end?' — '+end.getFullYear()+'년 '+(end.getMonth()+1)+'월 '+end.getDate()+'일까지':'')+'.';
-        B.innerHTML='<p>앱으로 돌아가서 <b>설정 → 계정 → 상태 새로고침</b> 또는 잠금 안내의 <b>«이미 구매했어요»</b>를 누르면 모든 기능이 열립니다.</p><p class="sub">아직 설치 전이라면 <a href="./#download">여기서 내려받으세요</a>. 영수증은 토스페이먼츠에서 이메일로 발송됩니다.</p>';
+        B.innerHTML='<p>앱으로 돌아가서 <b>설정 → 계정 → 상태 새로고침</b> 또는 잠금 안내의 <b>«이미 구매했어요»</b>를 누르면 모든 기능이 열립니다.</p><p class="sub">아직 설치 전이라면 <a href="./#download">여기서 내려받으세요</a>. 영수증은 결제한 카드사 · 카카오페이 · 네이버페이에서 확인할 수 있습니다.</p>';
       });
   }).catch(function(e){ H.textContent='오류'; Pp.textContent=String(e); });
 })();

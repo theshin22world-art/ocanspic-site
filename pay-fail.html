@@ -64,6 +64,6 @@ window.OC=(function(){
 <h1 class="err">결제가 완료되지 않았습니다</h1>
 <p class="sub" id="p"></p>
 <div class="card"><a class="btn" href="buy">다시 시도하기</a> <a class="btn ghost" href="mailto:wichonl@vibivi.co.kr?subject=결제 문의">문의하기</a></div>
-<script>var q=new URLSearchParams(location.search);document.getElementById('p').textContent=(q.get('message')||'결제창에서 취소되었거나 승인되지 않았습니다.')+(q.get('code')?' ('+q.get('code')+')':'');</script>
+<script>var q=new URLSearchParams(location.search);document.getElementById('p').textContent=q.get('message')||'결제창에서 취소되었거나 승인되지 않았습니다.';</script>
 </main>
 <footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>서울특별시 강남구 논현로75길 15, 5층 501호 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a> · <a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a></footer>
