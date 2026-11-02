@@ -1,15 +1,15 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>결제 실패 · 오캔스픽</title>
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
 <style>
 :root{--navy:#20213B;--orange:#8F82CA;--paper:#F6F6FB;--card:#fff;--ink:#0f1a26;--ink2:#3d4a5c;--mute:#6b7787;--line:#DDDCEA;--ok:#0f9d6a}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:15px;line-height:1.65}
 .nav{background:var(--navy);color:#fff;padding:14px 16px}.nav .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;font-weight:900}.nav a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}.nav img{width:30px;height:30px;border-radius:8px}.nav small{margin-left:auto;font-weight:400;opacity:.6;font-size:12.5px}
 main{max-width:760px;margin:0 auto;padding:36px 16px 80px}
-.k{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--orange);font-weight:600}
+.k{font-family:inherit;font-size:12px;letter-spacing:.14em;color:var(--orange);font-weight:600}
 h1{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:6px 0 6px}.sub{color:var(--mute);margin:0 0 22px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px}
-.plan{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.plan b{font-size:18px}.plan .price{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600}.plan .price small{font-size:13px;color:var(--mute);font-family:inherit;font-weight:400}
+.plan{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.plan b{font-size:18px}.plan .price{font-family:inherit;font-size:28px;font-weight:600}.plan .price small{font-size:13px;color:var(--mute);font-family:inherit;font-weight:400}
 ul.chk{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;color:var(--ink2);font-size:14px}ul.chk li::before{content:'✓';color:var(--orange);font-weight:900;margin-right:8px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;font-size:15px}
 .btn.big{width:100%;padding:16px;font-size:17px;background:var(--orange)}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn:disabled{opacity:.5;cursor:default}
@@ -66,4 +66,4 @@ window.OC=(function(){
 <div class="card"><a class="btn" href="buy">다시 시도하기</a> <a class="btn ghost" href="mailto:wichonl@vibivi.co.kr?subject=결제 문의">문의하기</a></div>
 <script>var q=new URLSearchParams(location.search);document.getElementById('p').textContent=q.get('message')||'결제창에서 취소되었거나 승인되지 않았습니다.';</script>
 </main>
-<footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>서울특별시 강남구 논현로75길 15, 5층 501호 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a> · <a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a></footer>
+<footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>서울특별시 강남구 논현로75길 15, 5층 501호 (역삼동, 역삼동 수양빌딩) · 전화 010-7107-0246 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a> · <a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a></footer>
