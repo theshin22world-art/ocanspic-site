@@ -714,7 +714,7 @@ html,body{overflow-x:clip}.wrap{overflow-x:visible}
 #about.photo-story h1.mk{font-size:calc(clamp(40px,4.6vw,64px) - 5px)}   /* 2026-11-05: 메인 제목 5 작게 */
 #about.photo-story .desktop-recommend{font-size:25px}   /* 데스크톱 설치 권장 글 3 크게 (22 → 25 / 17 → 20) */
 #about.photo-story .desktop-detail{font-size:20px}
-.price-lead p.d{font-size:18px}   /* 16 → 18 */
+.cost-sub{text-align:center;font-size:18px;color:var(--ink2);margin:6px 0 0}   /* «월 37,200원» 바로 아래 (2026-11-05 이동) */
 /* 2026-11-05: 요금제 2개 나란히 (왼쪽 오캔 다이나믹 플러스 · 오른쪽 오캔플러스), 카드 안에 목록 → 가격(가운데) → 구매 버튼 */
 #price{max-width:1040px}
 #price .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
@@ -738,6 +738,39 @@ html,body{overflow-x:clip}.wrap{overflow-x:visible}
 @media (max-width:760px){#price .pgrid{grid-template-columns:1fr;gap:16px}#price .pcard2{padding:24px 20px 22px}}
 @media (max-width:860px){#fast{padding:64px 0 0;margin-top:64px}}
 @media(max-width:760px){#about.photo-story h1.mk{font-size:35px}}
+/* 2026-11-05 (휴대폰 정리) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}   /* 휴대폰 «글자 크기» 설정이 페이지 글자만 키워 비율이 깨지던 것 막기 */
+@media(max-width:760px){   /* 2026-11-05: 휴대폰 첫 화면 글자 1 작게 · 전체를 조금 위로 */
+#about.photo-story{padding-top:70px}
+#about.photo-story h1.mk{margin-top:16px}
+#about .story-flow{margin-top:30px}
+#about .copy-opening p{font-size:19px}#about .copy-opening .copy-punch{font-size:23px}
+#about .copy-reality p{font-size:17px}#about .copy-reality .copy-punch{font-size:23px}
+#about .copy-turn p{font-size:19px}#about .copy-turn .turn-word{font-size:37px}
+#about .copy-action p{font-size:24px}
+#about.photo-story .desktop-recommend{font-size:24px}
+#about.photo-story .desktop-detail{font-size:18px}
+}
+@media(max-width:600px){#about.photo-story{padding-top:104px}}
+@media (max-width:860px){#exam .in>.vis{order:1}}   /* 좁은 화면: 84,000원 글이 위, 사진이 아래 */
+.cost-discount{font-size:20px;width:6.4em;height:6.4em}   /* 뱃지 원 크기를 글자 크기에 묶음 → 글자가 커져도 원 안에 */
+.cost-discount strong{font-size:1.95em;line-height:1.05}.cost-discount b{font-size:1.4em;line-height:1.1}
+@media(max-width:600px){.cost-discount{font-size:11.5px;width:6.9em;height:6.9em}.cost-sub{font-size:15px}}
+@media (max-width:760px){
+#price .pcard2 .pc-nm{font-size:18px;padding-right:58px}
+#price .pcard2 .pc-chip{font-size:12px;padding:2px 10px}
+#price .pcard2 .pc-chk{font-size:14px;gap:9px;margin-top:14px}
+#price .pcard2 .pc-chk li{gap:10px}
+#price .pcard2 .pc-chk li::before{width:18px;height:18px;background-size:11px}
+#price .pcard2 .pc-chk li small{font-size:11.5px}
+#price .pcard2 .pc-amt{font-size:28px}
+#price .pcard2 .pc-r{margin-top:18px;padding-top:18px}
+#price .pcard2 .pc-r small{font-size:13px;margin-top:6px}
+#price .pcard2 .pc-pay{margin-top:16px}
+#price .pcard2 .pc-pay .buy{height:50px;font-size:15px}
+#price .pc-tag{font-size:13px;padding:8px 12px;right:18px}
+#price > .pc-free{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -784,11 +817,11 @@ html,body{overflow-x:clip}.wrap{overflow-x:visible}
 <p>반면에, 오캔스픽은 <strong class="ac">빠르고 확실하게 끝내서 나가라고</strong> 말합니다.</p>
 <p>결론부터 말씀드리면, <strong>1년 동안 30분씩 공부하는 방식은 학원에게 가장 이득입니다.</strong></p>
 <p>'꾸준히 무언가를 했다'는 자기만족은 될지언정, 실제 영어 실력 향상에는 큰 도움이 되지 않습니다. 진짜 실력의 변화는 <strong>공부 시작 후 2주, 길어도 한 달 안에</strong> 가장 극적으로 찾아옵니다.</p>
-<p class="why-promise-p"><strong>오캔스픽의 궁극적인 약속은</strong><br>대충 때우는 '빨리빨리'가 아니라,<br>학습자가 온몸으로 체감할 수 있는<br><strong class="ac">'극적인 실력 상승'</strong>입니다.</p></div></section>
+<p class="why-promise-p"><strong>오캔스픽의 궁극적인 약속은</strong> 대충 때우는 '빨리빨리'가 아니라,<br>학습자가 온몸으로 체감할 수 있는 <strong class="ac">'극적인 실력 상승'</strong>입니다.</p></div></section>
 <section class="rev rv" id="reviews"><div class="head">
   <h2>오캔스픽 파트너들의 생생후기</h2>
-  <p class="d">오캔스픽 사전테스터 100인의 생생한 후기를 만나보세요. 수많은 피드백과 검증 끝에 나왔습니다.</p>
-  <div class="meta"><span><span class="stars">★★★★★</span> <b>5.0</b></span><span>사전테스터 <b>100</b>명</span></div>
+  <p class="d">오캔스픽 사전테스터 95인의 생생한 후기를 만나보세요. 수많은 피드백과 검증 끝에 나왔습니다.</p>
+  <div class="meta"><span><span class="stars">★★★★★</span> <b>4.9</b></span><span>사전테스터 <b>95</b>명</span></div>
 </div>
 <div class="marq" aria-label="오캔스픽 파트너들의 생생후기"><div class="track" id="revTrack"></div></div>
 </section>
@@ -818,6 +851,12 @@ text{font-family:inherit;dominant-baseline:central}
 .value{font-size:29px;font-weight:750}
 .reading{font-size:18px;fill:#777580}
 .reading-value{font-size:22px;font-weight:750;fill:#20213b}
+/* 2026-11-05: 휴대폰(그래프 폭 450px 이하)에서는 글자를 키우고 좌우 빈 곳을 잘라 더 크게 */
+@media(max-width:450px){
+.total{font-size:44px}.category{font-size:38px}.caption{font-size:28px}.value{font-size:38px}.reading{font-size:24px}.reading-value{font-size:29px}
+#leftText text:not([class]),#rightText text:not([class]){font-size:38px}
+#badgeNote{font-size:20px}
+}
 </style>
 </head>
 <body>
@@ -905,6 +944,7 @@ text{font-family:inherit;dominant-baseline:central}
   <text x=&quot;893&quot; y=&quot;281&quot;>2시간 → 6시간</text>
 </g>
 </svg>
+<script>if(matchMedia(&quot;(max-width:450px)&quot;).matches)document.getElementById(&quot;chart&quot;).setAttribute(&quot;viewBox&quot;,&quot;150 60 850 782&quot;);</script>
 
 </main>
 
@@ -1034,7 +1074,6 @@ text{font-family:inherit;dominant-baseline:central}
 <section class="price price-lead rv">
   <div class="live-clock" id="liveClock" aria-label="지금 시각"><span class="h">00</span> : <span class="m">00</span> : <span class="s">00</span></div>
   <h2 class="pricing-headline"><span class="pricing-date"><span id="visitor-date"></span>,</span><span>지금이 가장 저렴해요</span></h2>
-  <p class="d">지금 고민하는 시간은 내가 영어를 못하는 기간만 늘릴 뿐입니다.</p>
 </section>
 <section id="cost-comparison" class="cost-compare rv" aria-label="강남 학원과 오캔스픽 비용 비교">
 <div class="cost-grid">
@@ -1052,6 +1091,7 @@ text{font-family:inherit;dominant-baseline:central}
 <div class="cost-discount">이곳에서<strong>30%</strong><b>할인</b></div>
 </article></div>
 <p class="cost-result">월 <strong>37,200</strong>원</p>
+<p class="cost-sub">지금 고민하는 시간은 내가 영어를 못하는 기간만 늘릴 뿐입니다.</p>
 </section>
 
 <section class="price rv" id="price">
@@ -1060,7 +1100,7 @@ text{font-family:inherit;dominant-baseline:central}
     <span class="pc-tag">추천</span>
     <div class="pc-l"><b class="pc-nm">오캔 다이나믹 플러스 3개월 이용권<span class="pc-chip">모든 자격증 대비</span></b>
       <ul class="pc-chk"><li><span><b>오픽, 토스 모든 자격증 대비</b></span></li><li><span><b>지텔프 등 차후 신규 오픈 자격증 이용 가능</b></span></li><li><span><b>모든 시험</b> 모의고사 무제한 · AI 피드백</span></li><li><span>오달이 AI 과외선생님과 실시간 대화</span></li><li><span><b>동시 3대 기기 (데스크톱 2 + 폰)</b></span></li><li class="pc-sub"><span><b>신규 자격증 개설 시 이용권 한 달 무료 연장 (1회)</b><small>3개월 이용기간 종료 이후 신규 자격증이 개설된다면, 무료로 이용권 한 달 연장을 받아 보실 수 있습니다. 카톡 친구를 허용해 주세요.</small></span></li><li class="pc-rec"><span>고강도 집중 학습을 원하는 분께 추천</span></li></ul></div>
-    <div class="pc-r"><div class="pc-amt">197,700원</div><small>부가세 포함 · 90일 · 월 65,900원</small></div>
+    <div class="pc-r"><div class="pc-amt">146,700원</div><small>부가세 포함 · 90일 · 월 48,900원</small></div>
     <div class="pc-pay"><a class="buy" href="buy?plan=dyn">다이나믹 플러스 구매하기</a><span class="pm">신용·체크카드 · 간편결제</span></div>
   </div>
   <div class="pcard2">
@@ -1250,5 +1290,6 @@ var META_PIXEL_ID = '';
   if(!panel.hidden) panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
  });
 })();
-</script><script>(function(){function update(){var d=new Date();document.getElementById('visitor-date').textContent=String(d.getFullYear()).slice(-2)+'년'+(d.getMonth()+1)+'월'+d.getDate()+'일';}update();setInterval(update,60000);window.addEventListener('pageshow',update);document.addEventListener('visibilitychange',update);})();</script><script>/* 지금 시각 (시 : 분 : 초) */(function(){var c=document.getElementById('liveClock');if(!c)return;var h=c.querySelector('.h'),m=c.querySelector('.m'),x=c.querySelector('.s');function p(n){return n<10?'0'+n:''+n}function t(){var d=new Date();h.textContent=p(d.getHours());m.textContent=p(d.getMinutes());x.textContent=p(d.getSeconds());}t();setInterval(t,1000);})();</script></body>
+</script><script>(function(){function update(){var d=new Date();document.getElementById('visitor-date').textContent=String(d.getFullYear()).slice(-2)+'년'+(d.getMonth()+1)+'월'+d.getDate()+'일';}update();setInterval(update,60000);window.addEventListener('pageshow',update);document.addEventListener('visibilitychange',update);})();</script><script>/* 지금 시각 (시 : 분 : 초) */(function(){var c=document.getElementById('liveClock');if(!c)return;var h=c.querySelector('.h'),m=c.querySelector('.m'),x=c.querySelector('.s');function p(n){return n<10?'0'+n:''+n}function t(){var d=new Date();h.textContent=p(d.getHours());m.textContent=p(d.getMinutes());x.textContent=p(d.getSeconds());}t();setInterval(t,1000);})();</script><script>/* 2026-11-05: 53,300원 취소선(화살표 가로줄)을 글자 정가운데에 맞춘다 (휴대폰 글자 크기가 달라도) */(function(){function fit(){var a=document.querySelector('.cost-before .cost-arrow'),s=document.querySelector('.cost-before strong');if(!a||!s)return;a.style.top='';var y=s.offsetTop+s.offsetHeight/2;a.style.top=Math.round(y-a.offsetHeight*30/170)+'px';}window.addEventListener('load',fit);window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);fit();})();</script>
+</body>
 </html>
