@@ -66,14 +66,16 @@ window.OC=(function(){
 <div class="card" id="box"></div>
 <script>
 (function(){
-  var q=new URLSearchParams(location.search), oid=q.get('paymentId');
+  var q=new URLSearchParams(location.search), oid=q.get('paymentId')||q.get('orderId');
+  /* 2026-11-06: 토스페이먼츠는 paymentKey · orderId · amount 를 붙여 돌려보낸다 → toss-confirm, 그 밖(포트원)은 portone-confirm */
+  var tk_=q.get('paymentKey'), fn=tk_?'toss-confirm':'portone-confirm', body=tk_?{paymentKey:tk_,orderId:oid,amount:Number(q.get('amount'))}:{paymentId:oid};
   /* 포트원 모바일: 실패·취소도 이 주소로 돌아온다(code·message) → 실패 화면으로 */
   if(q.get('code')){ location.replace('pay-fail'+location.search); return; }
   var H=document.getElementById('h'),Pp=document.getElementById('p'),B=document.getElementById('box');
   if(!OC.sb){ H.textContent='설정이 비어 있습니다'; return; }
   OC.token().then(function(tk){
     if(!tk){ H.textContent='로그인이 풀렸습니다'; Pp.textContent='결제한 계정으로 다시 로그인하면 승인을 마무리합니다.'; B.innerHTML=OC.loginHTML(); OC.wire(B); return; }
-    return fetch(OC.C.SUPABASE_URL+'/functions/v1/portone-confirm',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify({paymentId:oid})})
+    return fetch(OC.C.SUPABASE_URL+'/functions/v1/'+fn,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify(body)})
       .then(function(r){ return r.json(); }).then(function(d){
         if(d.error){ H.innerHTML='<span class="err">승인에 실패했습니다</span>'; Pp.textContent=d.error; B.innerHTML='<a class="btn" href="buy">다시 시도</a> <a class="btn ghost" href="mailto:wichonl@vibivi.co.kr?subject=결제 문의 '+oid+'">문의하기</a>'; return; }
         var end=d.license&&d.license.ends_at?new Date(d.license.ends_at):null;

@@ -173,8 +173,13 @@ h1{margin-bottom:18px}
     test:{card:'channel-key-1ec52ced-d1af-447f-9da0-20bbe91c76a7', easy:'channel-key-1ec52ced-d1af-447f-9da0-20bbe91c76a7'},
     /* 2026-11-02: 토스페이먼츠(직접 가입) 카드사 심사용 테스트 클라이언트 키(test_ck_…, 공개 값).
        live.card 가 비어 있는 동안만 카드 버튼이 토스 테스트 결제창을 연다 (돈이 안 나감, 주문·이용권 없음) */
-    review:{tossClientKey:'test_ck_d46qopOB89JZNZBzXMga3ZmM75y0'}};
+    review:{tossClientKey:'test_ck_d46qopOB89JZNZBzXMga3ZmM75y0'},
+    /* 2026-11-06: 토스페이먼츠 단건결제 승인 → 실결제. 라이브 클라이언트 키(live_ck_…, 공개 값)를 넣으면 카드 버튼이 실결제창을 연다.
+       승인은 서버 toss-confirm (시크릿 키 TOSS_SECRET_KEY 는 Supabase Secrets 에만) */
+    toss:{live:'live_ck_GePWvyJnrKj7KexLbmGqVgLzN97E'}};
   var CHS=q.get('test')==='1'?PORTONE.test:PORTONE.live;
+  var TOSS=q.get('test')!=='1'&&!!PORTONE.toss.live;
+  if(TOSS) CHS={card:'toss', easy:CHS.easy};
   var REV=q.get('test')!=='1'&&!CHS.card&&!!PORTONE.review.tossClientKey;
   if(REV) CHS={card:'toss-review', easy:CHS.easy};
   var PM={kakao:{label:'카카오페이',pay:'EASY_PAY',ep:'KAKAOPAY',ch:CHS.easy},naver:{label:'네이버페이',pay:'EASY_PAY',ep:'NAVERPAY',ch:CHS.easy},card:{label:'카드',pay:'CARD',ch:CHS.card}};
@@ -235,6 +240,10 @@ h1{margin-bottom:18px}
           return; }
         OC.sb.from('orders').insert({id:orderId,user_id:u.id,amount:P.amount,plan:P.id,status:'ready'}).then(function(r){
           if(r.error){ if(/foreign key|orders_user_id_fkey/i.test(r.error.message||'')){ alert('로그인 정보가 만료되었거나 삭제된 계정입니다. 다시 로그인해 주세요.'); OC.sb.auth.signOut().finally(function(){ location.reload(); }); return; } alert('주문 생성 실패: '+r.error.message); btn.disabled=false; return; }
+          /* 토스페이먼츠 실결제: 성공하면 pay-success?paymentKey=…&orderId=…&amount=… 로 돌아와 toss-confirm 이 승인 · 이용권 발급 */
+          if(TOSS&&sel==='card'){ var base=(C.BASE||location.origin);
+            return TossPayments(PORTONE.toss.live).payment({customerKey:u.id}).requestPayment({method:'CARD',amount:{currency:'KRW',value:P.amount},orderId:orderId,orderName:P.name,successUrl:base+'/pay-success',failUrl:base+'/pay-fail',customerEmail:u.email||undefined,customerMobilePhone:tel})
+              .catch(function(e){ btn.disabled=false; if(!e||e.code!=='USER_CANCEL') alert((e&&e.message)||e); }); }
           var md=u.user_metadata||{}, req={storeId:PORTONE.storeId,channelKey:PM[sel].ch,paymentId:orderId,orderName:P.name,totalAmount:P.amount,currency:'KRW',payMethod:PM[sel].pay,
             redirectUrl:(C.BASE||location.origin)+'/pay-success',customer:{customerId:u.id,fullName:md.name||md.full_name||'고객',email:u.email||undefined,phoneNumber:tel}};
           /* 카카오페이 · 네이버페이: KCP 결제창에서 해당 간편결제를 바로 연다 */
