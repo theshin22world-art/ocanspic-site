@@ -81,8 +81,8 @@ h1 span{display:block;white-space:nowrap}
 .navy{--navy:#20213B;background:var(--navy);color:#fff;position:relative;z-index:1;word-break:keep-all}
 .wrap{max-width:780px;margin:0 auto;padding:0 24px}
 /* ---- 2. 모니터 + 남색이 자연스럽게 이어짐 ---- */
-.mon{position:relative;z-index:1;background:linear-gradient(to bottom,transparent 0,transparent 52%,#20213B 52%)}
-.mon img{display:block;width:min(86vw,680px);height:auto;margin:0 auto}
+.mon{position:relative;z-index:1;background:linear-gradient(to bottom,transparent 0,transparent 66.7%,#20213B 66.7%)}   /* 2026-11-15: 남색이 모니터 아래 1/3 지점을 지남 */
+.mon img{display:block;width:min(96vw,1156px);height:auto;margin:0 auto}   /* 2026-11-15: 680px 의 1.7배 1156px (휴대폰은 화면 폭 안에서 96vw) */
 .s2{padding:clamp(48px,8vw,84px) 0 clamp(80px,12vw,130px);text-align:center}
 .s2 h2{margin:0;font-size:clamp(26px,4.6vw,42px);font-weight:800;line-height:1.3;letter-spacing:-.03em}
 .s2 h2 span,.s2 p span{display:block}
