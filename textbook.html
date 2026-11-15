@@ -87,29 +87,7 @@ main{position:relative;z-index:1}
 .bk .pg{left:calc(var(--w) - var(--d)/2 - 3px);top:4px;width:var(--d);height:calc(var(--h) - 8px);transform:rotateY(90deg);background:repeating-linear-gradient(90deg,#F4F3F8 0 1.5px,#E4E3EE 1.5px 2.5px)}
 .bk .tp{left:0;top:calc(var(--d)/-2 + 3px);width:calc(var(--w) - 3px);height:var(--d);transform:rotateX(90deg);background:repeating-linear-gradient(0deg,#F4F3F8 0 1.5px,#E2E1EC 1.5px 2.5px)}
 .bk .bc{inset:0;transform:rotateY(180deg) translateZ(calc(var(--d)/2));border-radius:8px 3px 3px 8px}
-.bk .tag{font-size:10.5px;font-weight:600;letter-spacing:-.01em;line-height:1.45;max-width:150px}
-.bk .t1,.bk .t2{display:block;font-weight:800;letter-spacing:-.05em;line-height:1.12}
-.bk .bar{display:block;width:34px;height:3px;margin-top:16px;border-radius:2px}
-.bk .by{margin-top:auto;font-size:12px;font-weight:800;letter-spacing:-.01em}
 .bk-main{left:50%;top:50%;margin:calc(var(--h)/-2) 0 0 calc(var(--w)/-2 + 18px);transform:rotateY(-24deg) rotateX(4deg) translateZ(40px)}
-.bk-main .fr{background:radial-gradient(120% 70% at 85% 8%,rgba(217,237,182,.35),transparent 55%),linear-gradient(158deg,#9A8EDB 0%,#6E62B4 46%,#3B3277 100%);color:#fff;box-shadow:inset 6px 0 10px -6px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.08)}
-.bk-main .fr::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:1px;background:rgba(255,255,255,.18)}
-.bk-main .tag{color:rgba(255,255,255,.82)}
-.bk-main .t1{margin-top:auto;font-size:40px}
-.bk-main .t2{font-size:40px;color:#D9EDB6}
-.bk-main .bar{background:#D9EDB6}
-.bk-main .by{margin-top:22px;color:rgba(255,255,255,.9)}
-.bk-main .sp{background:linear-gradient(90deg,#3B3277,#5A4FA0);color:#D9EDB6}
-.bk-main .bc{background:linear-gradient(158deg,#6E62B4,#3B3277)}
-.bk-sub{--w:196px;--h:270px;--d:16px;left:50%;top:50%;margin:calc(var(--h)/-2 - 22px) 0 0 calc(var(--w)/-2 - 96px);transform:rotateY(-24deg) rotateX(4deg) translateZ(-30px)}
-.bk-sub .fr{background:radial-gradient(90% 60% at 90% 0%,rgba(143,130,202,.38),transparent 60%),linear-gradient(160deg,#2C2D52 0%,#20213B 55%,#15162A 100%);color:#fff;padding:22px 20px 20px 26px}
-.bk-sub .tag{color:rgba(255,255,255,.7);font-size:9.5px}
-.bk-sub .t1{margin-top:auto;font-size:27px;color:#fff}
-.bk-sub .t2{font-size:22px;color:#D9EDB6}
-.bk-sub .bar{background:#8F82CA;margin-bottom:6px}
-.bk-sub .sp{background:#15162A;color:#B7B0E4}
-.bk-sub .sp span{font-size:9.5px}
-.bk-sub .bc{background:#1B1C33}
 .bk-cov{--w:248px;--h:310px;--d:28px}
 .bk-cov .fr{padding:0;background-size:cover;background-position:center;box-shadow:inset 5px 0 9px -5px rgba(0,0,0,.35)}
 .bk-cov .fr::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:rgba(255,255,255,.22)}
@@ -180,9 +158,29 @@ main{position:relative;z-index:1}
 .bonus{position:relative;z-index:1;background:rgba(255,255,255,.9);padding:clamp(80px,10vw,128px) 0}
 .bonus .grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,72px);align-items:center}
 .bonus .vis{display:flex;flex-direction:column;align-items:center;gap:22px}
-.bonus .books{height:340px;width:100%}
-.bonus .bk-sub{--w:220px;--h:300px;--d:18px;margin:calc(var(--h)/-2) 0 0 calc(var(--w)/-2);transform:rotateY(-22deg) rotateX(4deg)}
-.bonus .bk-sub .t1{font-size:31px}.bonus .bk-sub .t2{font-size:25px}.bonus .bk-sub .tag{font-size:10.5px}
+.bonus .books{height:480px;width:100%}
+/* 영어면접 변환 마스터북 3D (사용자 목업 · 구도 B 하단 밴드형 · 우측 사선). 글자 크기는 --k (책 폭 / 360) 배율 */
+.mb3{--bw:300px;--bh:424px;--bd:30px;--k:.8333;position:absolute;left:50%;top:50%;width:var(--bw);height:var(--bh);margin:calc(var(--bh)/-2) 0 0 calc(var(--bw)/-2);transform-style:preserve-3d;transform:rotateY(22deg) rotateX(4deg)}
+.mb3 .mf{position:absolute;backface-visibility:hidden;overflow:hidden}
+.mb3 .mb-fr{inset:0;transform:translateZ(calc(var(--bd)/2));border-radius:1px 4px 4px 1px;background:#111113;color:#fff;display:flex;flex-direction:column;box-shadow:inset 2px 0 4px rgba(255,255,255,.12)}
+.mb3 .mb-bc{inset:0;transform:rotateY(180deg) translateZ(calc(var(--bd)/2));border-radius:4px 1px 1px 4px;background:#141417;border:1px solid #27272A}
+.mb3 .mb-sp{width:var(--bd);height:100%;top:0;left:calc(var(--bd)/-2);transform:rotateY(-90deg);background:#0D0D0F;border-left:1px solid #27272A;border-right:1px solid #27272A;display:flex;align-items:center;justify-content:center}
+.mb3 .mb-sp span{writing-mode:vertical-rl;font-size:calc(11px*var(--k));font-weight:700;color:#E4E4E7;letter-spacing:-.02em;white-space:nowrap}
+.mb3 .mb-pg{width:var(--bd);height:calc(100% - 6px);top:3px;left:calc(var(--bw) - var(--bd)/2);transform:rotateY(90deg);background:repeating-linear-gradient(90deg,#D8D8DC 0,#FAFAFA 1.5px,#EAEAEF 3px)}
+.mb3 .crease{position:absolute;top:0;bottom:0;left:0;width:18px;z-index:5;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.48) 0,rgba(255,255,255,.09) 3px,rgba(0,0,0,.28) 10px,rgba(255,255,255,.05) 12px,transparent 18px)}
+.mb3 .ph{position:absolute;left:0;right:0;top:0;bottom:43%;z-index:1;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.22);background:#2A2A2E}
+.mb3 .ph img{width:100%;height:100%;object-fit:cover;object-position:52% 28%;filter:grayscale(100%) contrast(1.12) brightness(.74);transform:scale(1.01)}
+.mb3 .scrim{position:absolute;left:0;right:0;top:0;bottom:43%;z-index:2;background:linear-gradient(180deg,rgba(15,15,18,.52) 0%,rgba(15,15,18,.08) 45%,rgba(15,15,18,.45) 100%)}
+.mb3 .top{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;padding:calc(20px*var(--k)) calc(24px*var(--k)) calc(14px*var(--k));border-bottom:1px solid rgba(255,255,255,.15)}
+.mb3 .bm{font-size:calc(13px*var(--k));font-weight:900;letter-spacing:-.04em;line-height:1}
+.mb3 .bm i{font-style:normal;font-weight:800;color:#D4D4D8}
+.mb3 .ed{font-size:calc(9.5px*var(--k));font-weight:600;color:#D4D4D8}
+.mb3 .btm{position:relative;z-index:4;margin-top:auto;padding:calc(16px*var(--k)) calc(24px*var(--k)) calc(24px*var(--k))}
+.mb3 .kb{display:inline-block;padding:calc(2px*var(--k)) calc(8px*var(--k));margin-bottom:calc(10px*var(--k));font-size:calc(9.5px*var(--k));font-weight:700;color:#E4E4E7;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25)}
+.mb3 .tt{font-size:calc(21px*var(--k));font-weight:800;line-height:1.3;letter-spacing:-.035em}
+.mb3 .qt{margin:calc(12px*var(--k)) 0 0;padding-left:calc(10px*var(--k));border-left:2px solid #fff;font-size:calc(10px*var(--k));line-height:1.6;color:#D4D4D8}
+.mb3 .ft{margin-top:calc(14px*var(--k));padding-top:calc(10px*var(--k));border-top:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between;font-size:calc(9px*var(--k));font-weight:600;color:#A1A1AA}
+.mb3 .ft b{color:#E4E4E7;font-weight:700}
 .chip{display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;background:#D9EDB6;color:#688B3E;font-size:13px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .bonus .body{margin-top:22px;color:var(--sub);font-size:clamp(15px,1.5vw,16.5px)}
 .bonus .body p+p{margin-top:14px}
@@ -216,10 +214,8 @@ main{position:relative;z-index:1}
   .books{height:330px}
   .bk-main{--w:200px;--h:250px;--d:24px}
   .bk-back{--w:168px;--h:210px;--d:16px;margin-left:calc(var(--w)/-2 - 74px)}
-  .bk-sub{--w:160px;--h:222px;--d:13px;margin-left:calc(var(--w)/-2 - 78px)}
-  .bk-sub .t1{font-size:22px}.bk-sub .t2{font-size:18px}
-  .bonus .books{height:300px}
-  .bonus .bk-sub{--w:190px;--h:260px;margin-left:calc(var(--w)/-2)}
+  .bonus .books{height:380px}
+  .mb3{--bw:240px;--bh:339px;--bd:24px;--k:.6667}
   .cmp .hd{display:none}
   .cmp .row{grid-template-columns:1fr}
   .cmp .row>*{padding:0}
@@ -285,10 +281,22 @@ main{position:relative;z-index:1}
 </div></section>
 
 <section class="bonus"><div class="w"><div class="grid">
-  <div class="vis fu"><div class="books" id="bonusBooks"><div class="rig"><div class="bk bk-sub" aria-hidden="true">
-  <div class="f fr"><span class="tag">대기업 · 외국계 실전 답변 치환 가이드</span><b class="t1">영어면접</b><b class="t2">변환 마스터북</b><i class="bar"></i></div>
-  <div class="f sp"><span>영어면접 변환 마스터북</span></div>
-  <div class="f pg"></div><div class="f tp"></div><div class="f bc"></div>
+  <div class="vis fu"><div class="books" id="bonusBooks"><div class="rig"><div class="mb3" aria-hidden="true">
+  <div class="mf mb-sp"><span>대기업·외국계 영어 면접 1분 자기소개 변환 가이드 · OCansPIc</span></div>
+  <div class="mf mb-pg"></div>
+  <div class="mf mb-fr">
+    <div class="crease"></div>
+    <div class="ph"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="" loading="lazy"></div>
+    <div class="scrim"></div>
+    <div class="top"><span class="bm">OC<i>ans</i>PI<i>c.</i></span><span class="ed">실전 커리어 에디션</span></div>
+    <div class="btm">
+      <div class="kb">오캔스픽 수강생 전용 커리어 특전 리포트</div>
+      <div class="tt">오픽 답변 그대로 돌려쓰는<br>대기업·외국계 영어 면접<br>1분 자기소개 변환 가이드</div>
+      <p class="qt">오픽 시험이 끝났다고 입에 붙인 문장을 버리지 마세요. 이미 체화한 오픽 문단에서 일상 구어체 단어 3개만 비즈니스 표현으로 교체하면 실무 면접 답변이 완성됩니다.</p>
+      <div class="ft"><span>4대 직무 피치 · STAR 꼬리질문 4선</span><b>OCansPIc</b></div>
+    </div>
+  </div>
+  <div class="mf mb-bc"></div>
 </div></div><span class="sh" aria-hidden="true"></span></div><span class="chip">정가 29,000원 상당 · 전 수강생 무료 포함</span></div>
   <div>
     <h2 class="h2 fu"><span>어학 성적표 한 장으로 끝나지 않도록</span><span>『대기업 · 외국계 영어면접 변환 마스터북』을 함께 드립니다</span></h2>

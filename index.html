@@ -1085,17 +1085,16 @@ updateModelFit();recalc();
 (function(){
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function ss(k,v){ try{ if(v===undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k,v); }catch(e){ return null; } }
-  /* 하단 탭: 첫 화면을 지나면 나타남 · 요금제나 맨 아래 설치 화면이 보이면 숨김 · 자정까지 카운트다운 */
-  var bar=document.getElementById('ocBar'), past=false, hide={};
-  function paint(){ var on=past&&!hide.p&&!hide.b; bar.classList.toggle('show',on); bar.setAttribute('aria-hidden',String(!on)); }
+  /* 하단 탭: 처음부터 보임 · 요금제나 맨 아래 설치 화면이 보이면 숨김 · 자정까지 카운트다운 */
+  var bar=document.getElementById('ocBar'), hide={};
+  function paint(){ var on=!hide.p&&!hide.b; bar.classList.toggle('show',on); bar.setAttribute('aria-hidden',String(!on)); }
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ es.forEach(function(e){ past=!e.isIntersecting&&e.boundingClientRect.top<0; paint(); }); }).observe(document.getElementById('first'));
     [['p','pricing'],['b','launch']].forEach(function(x){ var t=document.getElementById(x[1]); if(t) new IntersectionObserver(function(es){ es.forEach(function(e){ hide[x[0]]=e.isIntersecting; paint(); }); }).observe(t); });
   }
   function p2(n){ return (n<10?'0':'')+n; }
   var cd=document.getElementById('ocCd');
   function tick(){ var n=new Date(), m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1), s=Math.max(0,Math.floor((m-n)/1000)); cd.textContent=p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60); }
-  tick(); setInterval(tick,1000);
+  paint(); tick(); setInterval(tick,1000);
   /* 바텀슬라이드 2종: 페이지 70% 내려오면 카톡 로그인(세션당 1번) · 특전 요약 누르면 3대 특전 */
   var shS=document.getElementById('ocSheet'), shK=document.getElementById('ocKakao'), last=null;
   function open(el){ last=document.activeElement; [shS,shK].forEach(function(o){ if(o!==el) close(o,1); }); el.classList.add('on'); el.setAttribute('aria-hidden','false'); }
