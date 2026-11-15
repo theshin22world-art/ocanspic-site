@@ -140,7 +140,8 @@ h1 span{display:block;white-space:nowrap}
 .fill span{position:absolute;left:clamp(14px,6vw,58px);top:50%;transform:translateY(-50%);white-space:nowrap;font-size:clamp(12.5px,2vw,17px);font-weight:700;color:#fff;letter-spacing:-.02em}
 .pct{font-size:clamp(26px,4.4vw,40px);font-weight:900;color:#6D61B3;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
 .pct small{font-size:.55em;font-weight:800;margin-left:1px}
-@media (max-width:620px){.poll{grid-template-columns:28% 1fr;padding-right:12px}.poll .od img{width:128%;bottom:calc(30px - var(--pp))}.poll .note{bottom:calc(10px - var(--pp));line-height:14px}.poll .note{left:10px;font-size:9.5px}.bar{grid-template-columns:1fr 54px;gap:8px}.fill span{left:10px;font-size:11.5px}.pct{font-size:23px}}
+@media (max-width:620px){.poll{grid-template-columns:1fr;margin-top:52px;padding:16px 14px 14px;min-height:0}.poll .od{order:2;align-self:auto}.poll .od img{display:none}.poll .note{position:static;display:block;margin-top:12px;line-height:14px;font-size:9.5px;white-space:normal}   /* 2026-11-15: 좁은 화면 오달이 숨김 · 안내문은 막대 아래 · 후기와 간격 70→52px */
+.bar{grid-template-columns:1fr 54px;gap:8px}.fill span{left:10px;font-size:11.5px}.pct{font-size:23px}}
 /* ---- 3-3. 왜 다른 영어학원들은: 메인 제목과 같은 등장 모션 (위에서 살짝 내려오며 나타남) ---- */
 .s4{padding:clamp(10px,1.6vw,20px) 0 clamp(90px,13vw,140px)}
 .s4 h2{margin:0;text-align:center;font-size:clamp(24px,4.4vw,40px);font-weight:800;line-height:1.42;letter-spacing:-.03em}
@@ -149,6 +150,7 @@ h1 span{display:block;white-space:nowrap}
 .s4 p{margin:0 0 clamp(22px,3.2vw,32px);font-size:clamp(15px,2.2vw,19.5px);font-weight:400;line-height:1.66;letter-spacing:-.02em;color:rgba(255,255,255,.9);word-break:keep-all}
 .s4 p:last-child{margin-bottom:0}
 .s4 p b{font-weight:700;color:#fff}
+@media (max-width:620px){.s4 h2{font-size:22px}}   /* 2026-11-15: 좁은 화면 제목 2px 축소 */
 .drop{opacity:0;transform:translateY(-16px)}
 .drop.in{animation:dropIn 1.3s cubic-bezier(.2,.7,.2,1) forwards}
 .drop.d1{animation-delay:.45s}.drop.d2{animation-delay:.9s}.drop.d3{animation-delay:1.35s}.drop.d4{animation-delay:1.8s}
@@ -198,7 +200,7 @@ h1 span{display:block;white-space:nowrap}
     </div>
   </div></section>
 </main>
-<!-- ===== 2주 안에 AL점수와 영어실력까지 (아이패드 3장면 v9) ===== -->
+<!-- ===== 2주 안에 AL점수와 영어실력까지 (아이패드 3장면 v10) ===== -->
 <style>
 @font-face{font-family:"Pretendard";src:url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
 #ocp-speed{--ocp-bg:#f9f9f9;--ocp-ink:#20213b;--ocp-gray:#606060;position:relative;height:476vh;height:476svh;min-height:2293px;background:#f9f9f9;font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:var(--ocp-ink);-webkit-font-smoothing:antialiased;isolation:isolate}
@@ -301,6 +303,20 @@ h1 span{display:block;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){#ocp-intro .oi{opacity:1;transform:none;animation:none!important}}
 /* 장면 안 제목은 소개 화면으로 옮겼으므로 자리만 남기고 숨김 */
 #ocp-speed .ocp-title{visibility:hidden;height:0;overflow:hidden}
+
+/* 2026-11-15 v10 */
+#ocp-speed .ocp-bubble{background:none;color:#111;min-width:0;height:auto;padding:0;border-radius:0;font-size:clamp(22px,3.5vw,35px);font-weight:800;line-height:1.42;letter-spacing:-.045em;white-space:nowrap}
+#ocp-speed .ocp-bubble small{font-size:inherit;font-weight:inherit;letter-spacing:inherit}
+#ocp-speed .ocp-bubble-area{transform:translateY(26px)}
+@media(max-width:650px){
+ #ocp-speed .ocp-bubble{font-size:21px}
+ #ocp-speed .ocp-bubble-area{transform:translateY(84px)}
+ #ocp-speed .ocp-device-area{translate:0 8px}
+ #ocp-speed .ocp-description-area{transform:translateY(-52px)}
+ #ocp-intro{padding-top:clamp(84px,16vh,170px)}
+ #ocp-intro h2{font-size:21px}
+}
+@media(max-width:350px){#ocp-speed .ocp-bubble{font-size:19px}#ocp-speed .ocp-description-area{transform:translateY(-46px)}}
 </style>
 <section id="ocp-intro" aria-label="2주간 서둘러 AL 따는 것도 좋지만 동시에 영어 실력도 같이 올리고 싶어서">
   <h2 class="oi"><span>2주간 서둘러 AL 따는 것도 좋지만</span><span>동시에 영어 실력도 같이 올리고 싶어서,</span></h2>
@@ -434,7 +450,7 @@ function show(el,opacity,bubble){
  const a=clamp(opacity);
  el.style.opacity=a.toFixed(4);
  el.style.transform=bubble
-  ?`translate(-50%,-50%) translateY(${(1-a)*26}px) scale(.8)`
+  ?`translate(-50%,-50%) translateY(${(1-a)*26}px)`
   :`translateY(${(1-a)*28}px)`;
  el.setAttribute('aria-hidden',String(a<.15));
 }
@@ -444,7 +460,7 @@ function updateModelFit(){
  const w=354,h=462,r=18*Math.PI/180;
  const boundW=Math.abs(w*Math.cos(r))+Math.abs(h*Math.sin(r));
  const boundH=Math.abs(h*Math.cos(r))+Math.abs(w*Math.sin(r));
- const fit=Math.min(1.08,(aW-32)/(boundW+10),(aH-22)/(boundH+10));
+ const fit=Math.min(1.08,(aW-32)/(boundW+10),(aH-22)/(boundH+10))*(innerWidth<=650?.95:1);   /* 모바일 5% 작게 */
  model.style.setProperty('--ocp-fit',String(Math.max(.22,fit).toFixed(5)));
 }
 function recalc(){
@@ -482,6 +498,7 @@ function recalc(){
    rotation=720;roll=-16;pitch=5;
    bubbleOp=[0,0,1];textOp=[0,0,1];screenOp=[0,0,1];
  }
+ rotation+=Math.sin(p*Math.PI*8)*4; roll+=Math.cos(p*Math.PI*8)*1.6;   /* 머무는 구간에도 스크롤 따라 아주 조금 흔들림 */
  if(media.matches){rotation=0;roll=0;pitch=0;}
  bubbles.forEach((el,i)=>show(el,bubbleOp[i],true));
  texts.forEach((el,i)=>show(el,textOp[i],false));
@@ -660,7 +677,9 @@ updateModelFit();recalc();
   .bn-cards{margin-top:44px;gap:16px}
   .bn-gift{width:120px;top:-82px;right:4px}
   .bc,.bc.od{height:auto;display:flex;flex-direction:column}
-  .bc .lp{position:relative;width:auto;box-shadow:0 4px 10px rgba(20,22,40,.12);padding:62px 18px 20px;order:0}
+  .bc .lp{position:relative;width:auto;box-shadow:0 4px 10px rgba(20,22,40,.12);padding:16px 18px 20px;order:0}
+  .bc .lp .sub{margin-left:46px!important}
+  .bc .lp .ttl{margin:4px 0 0 46px!important}   /* 2026-11-15: 리본 아래가 아니라 리본 오른쪽에 */
   .bc .ab{position:static!important;left:auto!important;top:auto!important;width:auto!important;margin:0!important}
   .bc .lp .ab{position:static}
   .bc .rib{position:absolute!important;left:16px!important;top:0!important;width:34px!important;height:44px;padding-top:5px}
