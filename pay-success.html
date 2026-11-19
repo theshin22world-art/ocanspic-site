@@ -1,26 +1,13 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>결제 완료 · 오캔스픽</title>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>결제 완료 · 오캔스픽</title>
+<meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<style>
-:root{--navy:#20213B;--orange:#8F82CA;--paper:#F6F6FB;--card:#fff;--ink:#0f1a26;--ink2:#3d4a5c;--mute:#6b7787;--line:#DDDCEA;--ok:#0f9d6a}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:15px;line-height:1.65}
-.nav{background:var(--navy);color:#fff;padding:14px 16px}.nav .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;font-weight:900}.nav a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}.nav img{width:30px;height:30px;border-radius:8px}.nav small{margin-left:auto;font-weight:400;opacity:.6;font-size:12.5px}
-main{max-width:760px;margin:0 auto;padding:36px 16px 80px}
-.k{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--orange);font-weight:600}
-h1{font-size:26px;font-weight:900;letter-spacing:-.02em;margin:6px 0 6px}.sub{color:var(--mute);margin:0 0 22px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px}
-.plan{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.plan b{font-size:18px}.plan .price{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600}.plan .price small{font-size:13px;color:var(--mute);font-family:inherit;font-weight:400}
-ul.chk{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;color:var(--ink2);font-size:14px}ul.chk li::before{content:'✓';color:var(--orange);font-weight:900;margin-right:8px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;font-size:15px}
-.btn.big{width:100%;padding:16px;font-size:17px;background:var(--orange)}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn:disabled{opacity:.5;cursor:default}
-.lg{display:grid;gap:10px;max-width:420px;margin:0 auto}.lgb{display:flex;align-items:center;justify-content:center;height:50px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:600;cursor:pointer;font:inherit;font-size:15px}
-.lgb.naver{background:#03C75A;color:#fff;border-color:#03C75A}.lgb.apple{background:#000;color:#fff;border-color:#000}.lgb.email{border-style:dashed;color:var(--mute)}
-.row{display:flex;gap:8px}.row input{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:15px}
-.me{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--ink2);font-size:14px;flex-wrap:wrap}.me b{color:var(--ink)}
-.note{background:#F1EFFA;border-left:3px solid var(--orange);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:#4E4587;margin-top:14px}
-.ok{color:var(--ok)}.err{color:#c0392b}
-footer{max-width:760px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-size:12.5px;line-height:1.9}footer a{color:var(--mute)}
-</style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -30,7 +17,7 @@ window.OC=(function(){
   var here=location.origin+location.pathname;
   function loginHTML(){ return '<div class="lg">'
     +(C.NAVER_LOGIN?'<button class="lgb naver" data-p="naver">네이버로 로그인</button>':'')
-    +'<button class="lgb" data-p="google">Google로 로그인</button><button class="lgb apple" data-p="apple">Apple로 로그인</button>'
+    +'<button class="lgb" data-p="google">Google로 로그인</button><button class="lgb apple" data-p="apple">Apple로 로그인</button><button class="lgb kakao" data-p="kakao">카카오로 로그인</button>'
     +'<button class="lgb email" data-p="email">이메일로 가입 또는 로그인</button>'
     +'<div class="row" id="emBox" style="display:none"><input id="emIn" type="email" placeholder="이메일 주소"><button class="btn" id="emGo">계속</button></div>'
     +'<p class="sub" style="text-align:center;font-size:12.5px;margin:6px 0 0">앱에서 쓰는 계정과 같은 계정으로 로그인하세요. 이용권은 이 계정에 붙습니다.</p></div>'; }
@@ -57,31 +44,165 @@ window.OC=(function(){
     signOut:function(){ return sb.auth.signOut().then(function(){ location.reload(); }); } };
 })();
 </script>
-</head><body>
-<div class="nav"><div class="in"><a href="./"><img src="data:image/png;base64,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" alt="">오캔스픽</a><small>ViBiVi Science Lab</small></div></div>
+<style>
+:root{
+  --bg:#FFFFFF;--chip:#F3F2FA;
+  --ink:#20213B;--sub:#5B5E80;--muted:#8B8EAD;
+  --line:#E4E3F0;--softline:#ECEBF5;--rowline:#F0EFF7;
+  --accent:#6E62B4;--lavender:#8F82CA;--lime:#D9EDB6;--olive:#55752E;--olivetext:#688B3E;
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.68;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.aurora-stage{position:fixed;inset:0;z-index:0;pointer-events:none;background:#FFFFFF;overflow:hidden}
+.aurora-stage i{position:absolute;border-radius:50%;opacity:.15;filter:blur(80px);will-change:transform}
+.aurora-stage .a1{top:-180px;left:-150px;width:540px;height:540px;background:radial-gradient(circle,#8F82CA 0%,rgba(143,130,202,0) 70%);animation:au1 16s ease-in-out infinite alternate}
+.aurora-stage .a2{bottom:-200px;right:-140px;width:580px;height:580px;background:radial-gradient(circle,#D9EDB6 0%,rgba(217,237,182,0) 72%);animation:au2 21s ease-in-out infinite alternate}
+@keyframes au1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(56px,40px,0) scale(1.12)}}
+@keyframes au2{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-50px,-44px,0) scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.aurora-stage i{animation:none}}
+.shell{position:relative;z-index:1}
+.frost-gnb{position:sticky;top:0;z-index:40;height:56px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.frost-gnb{background:rgba(255,255,255,.97)}}
+.frost-gnb .wrap{max-width:1080px;margin:0 auto;padding:0 20px;height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wordmark{font-size:18px;font-weight:800;letter-spacing:-.04em;color:var(--ink);text-decoration:none}
+.gnb-safe{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--sub)}
+.gnb-safe svg{width:15px;height:15px;color:var(--olivetext)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;border:0;font-weight:600;white-space:nowrap;text-decoration:none;transition:background-color .15s,border-color .15s,transform .12s}
+.btn:active{transform:scale(.98)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#303254}
+.btn-line{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-line:hover{border-color:#C9C6DE}
+.gnb-cta{height:34px;padding:0 15px;font-size:13px}
+main{max-width:720px;margin:0 auto;padding:44px 20px 88px}
+footer{border-top:1px solid var(--line);padding:32px 0 72px;font-size:12.5px;color:var(--muted);line-height:1.8}
+footer .fin{max-width:720px;margin:0 auto;padding:0 20px}
+footer .fl{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:14px}
+footer .fl a{color:var(--sub);font-weight:600;text-decoration:none}
+footer .fl a:hover{color:var(--ink)}
+footer p+p{margin-top:6px}
+footer p a{color:inherit}
+@media (max-width:560px){main{padding:30px 16px 72px}footer .fin{padding:0 16px}.frost-gnb .wrap{padding:0 16px}}
+
+.st-ico{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px}
+.st-ico svg{width:26px;height:26px}
+.st-ico.ok{background:var(--lime);color:var(--olive)}
+.st-ico.no{background:var(--chip);color:var(--sub)}
+.spin{width:44px;height:44px;border-radius:50%;border:3px solid var(--softline);border-top-color:var(--ink);animation:sp .9s linear infinite;margin:0 auto 20px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ph{font-size:26px;font-weight:800;letter-spacing:-.035em;line-height:1.35;text-align:center}
+.psub{margin-top:8px;text-align:center;font-size:14.5px;color:var(--sub)}
+.psub b{color:var(--ink)}
+.pmeta{margin-top:6px;text-align:center;font-size:12.5px;color:var(--muted)}
+.rows{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:6px}
+.rw{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.rw+.rw{border-top:1px solid var(--rowline)}
+.rw .ri{width:36px;height:36px;flex:none;border-radius:50%;background:var(--chip);display:grid;place-items:center;color:var(--accent)}
+.rw .ri svg{width:18px;height:18px}
+.rw .rt{flex:1;min-width:0}
+.rw .rt b{display:block;font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.5}
+.rw .rt span{display:block;font-size:13px;color:var(--sub);line-height:1.6;margin-top:2px}
+.rw .rt a{color:var(--accent)}
+.rw .btn{height:34px;padding:0 14px;font-size:13px;flex:none}
+.cta{display:flex;width:100%;height:50px;margin-top:24px;font-size:16px;font-weight:700}
+.after{margin-top:14px;text-align:center;font-size:13px;color:var(--sub);line-height:1.7}
+.after b{color:var(--ink)}
+.after a{color:var(--accent)}
+.acts{display:flex;gap:8px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.acts .btn{height:44px;padding:0 22px;font-size:14.5px}
+.kept{margin-top:26px;display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:13.5px;color:var(--sub)}
+.kept i{width:8px;height:8px;border-radius:50%;background:var(--olivetext);flex:none}
+.kept b{color:var(--ink)}
+.guide{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.guide li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--sub);line-height:1.65}
+.guide li em{font-style:normal;width:22px;height:22px;flex:none;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink);margin-top:0}
+.contact{margin-top:22px;text-align:center;font-size:12.5px;color:var(--muted)}
+.contact a{color:var(--sub)}
+/* 로그인(승인 마무리용) */
+.lg{display:grid;gap:8px;max-width:400px;margin:26px auto 0}
+.lgb{display:flex;align-items:center;justify-content:center;height:46px;width:100%;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:14.5px;font-weight:600;color:var(--ink)}
+.lgb.naver{background:#03C75A;color:#fff;border-color:#03C75A}.lgb.apple{background:#000;color:#fff;border-color:#000}.lgb.kakao{background:#FEE500;color:#191919;border-color:#FEE500}.lgb.email{color:var(--sub)}
+.row{display:flex;gap:8px}.row input{flex:1;min-width:0;height:46px;border:1px solid var(--line);border-radius:6px;padding:0 14px;font:inherit;font-size:15px;color:var(--ink)}
+.row .btn{height:46px;padding:0 18px;border-radius:6px;background:var(--ink);color:#fff}
+.lg .sub{text-align:center;font-size:12.5px;color:var(--muted);margin:4px 0 0}
+@media (max-width:560px){.ph{font-size:23px}.rw{flex-wrap:wrap}.rw .btn{margin-left:50px}}
+</style>
+</head>
+<body>
+<div class="aurora-stage" aria-hidden="true"><i class="a1"></i><i class="a2"></i></div>
+<div class="shell">
+<header class="frost-gnb">
+  <div class="wrap">
+    <a class="wordmark" href="./" aria-label="오캔스픽 처음으로">오캔스픽</a>
+    <span class="gnb-safe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>안전한 암호화 결제</span>
+  </div>
+</header>
 <main>
-<div class="k">PAYMENT</div>
-<h1 id="h">결제를 확인하고 있습니다…</h1>
-<p class="sub" id="p">잠시만요.</p>
-<div class="card" id="box"></div>
+  <div id="stage">
+    <div class="spin" aria-hidden="true"></div>
+    <h1 class="ph" id="h">결제 승인을 확인하고 있습니다</h1>
+    <p class="psub" id="p">창을 닫지 말고 잠시만 기다려 주세요.</p>
+  </div>
+  <div id="box"></div>
+</main>
 <script>
 (function(){
-  var q=new URLSearchParams(location.search), pk=q.get('paymentKey'), oid=q.get('orderId'), amt=q.get('amount');
-  var H=document.getElementById('h'),Pp=document.getElementById('p'),B=document.getElementById('box');
-  if(!OC.sb){ H.textContent='설정이 비어 있습니다'; return; }
+  var q=new URLSearchParams(location.search), oid=q.get('paymentId')||q.get('orderId');
+  /* 2026-11-06: 토스페이먼츠는 paymentKey · orderId · amount 를 붙여 돌려보낸다 → toss-confirm, 그 밖(포트원)은 portone-confirm */
+  var tk_=q.get('paymentKey'), fn=tk_?'toss-confirm':'portone-confirm', body=tk_?{paymentKey:tk_,orderId:oid,amount:Number(q.get('amount'))}:{paymentId:oid};
+  /* 포트원 모바일: 실패·취소도 이 주소로 돌아온다(code·message) → 실패 화면으로 */
+  if(q.get('code')){ location.replace('pay-fail'+location.search); return; }
+  var S=document.getElementById('stage'),B=document.getElementById('box');
+  function head(ico,h,p){ S.innerHTML=(ico==='ok'?'<div class="st-ico ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></div>':ico==='no'?'<div class="st-ico no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 7.5v6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></div>':'')+'<h1 class="ph">'+h+'</h1>'+(p?'<p class="psub">'+p+'</p>':''); }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  if(!OC.sb){ head('no','설정이 비어 있습니다',''); return; }
   OC.token().then(function(tk){
-    if(!tk){ H.textContent='로그인이 풀렸습니다'; Pp.textContent='결제한 계정으로 다시 로그인하면 승인을 마무리합니다.'; B.innerHTML=OC.loginHTML(); OC.wire(B); return; }
-    return fetch(OC.C.SUPABASE_URL+'/functions/v1/toss-confirm',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify({paymentKey:pk,orderId:oid,amount:Number(amt)})})
+    if(!tk){ head('no','로그인이 풀렸습니다','결제한 계정으로 다시 로그인하면 승인을 마무리합니다.'); B.innerHTML=OC.loginHTML(); OC.wire(B); return; }
+    return fetch(OC.C.SUPABASE_URL+'/functions/v1/'+fn,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+tk,'apikey':OC.C.SUPABASE_ANON_KEY},body:JSON.stringify(body)})
       .then(function(r){ return r.json(); }).then(function(d){
-        if(d.error){ H.innerHTML='<span class="err">승인에 실패했습니다</span>'; Pp.textContent=d.error; B.innerHTML='<a class="btn" href="buy">다시 시도</a> <a class="btn ghost" href="mailto:wichonl@vibivi.co.kr?subject=결제 문의 '+oid+'">문의하기</a>'; return; }
-        if(d.waiting){ var va=d.virtualAccount||{}; H.textContent='입금 계좌가 발급되었습니다'; Pp.textContent='입금이 확인되는 즉시 이용권이 열립니다(보통 1~2분).';
-          B.innerHTML='<p><b>'+(va.bankCode||'')+' '+(va.accountNumber||'')+'</b><br>예금주 '+(va.customerName||'')+' · 입금 기한 '+(va.dueDate||'').replace('T',' ').slice(0,16)+'</p><p class="sub">입금 후 앱에서 «이미 구매했어요»를 누르세요.</p>'; return; }
-        var end=d.license&&d.license.ends_at?new Date(d.license.ends_at):null;
-        H.innerHTML='<span class="ok">결제가 완료되었습니다</span>'; Pp.textContent='이용권이 계정에 붙었습니다'+(end?' — '+end.getFullYear()+'년 '+(end.getMonth()+1)+'월 '+end.getDate()+'일까지':'')+'.';
-        B.innerHTML='<p>앱으로 돌아가서 <b>설정 → 계정 → 상태 새로고침</b> 또는 잠금 안내의 <b>«이미 구매했어요»</b>를 누르면 모든 기능이 열립니다.</p><p class="sub">아직 설치 전이라면 <a href="./#download">여기서 내려받으세요</a>. 영수증은 토스페이먼츠에서 이메일로 발송됩니다.</p>';
+        if(d.error){ head('no','승인에 실패했습니다',esc(d.error)); B.innerHTML='<div class="acts"><a class="btn btn-ink" href="buy">다시 시도</a><a class="btn btn-line" href="mailto:wichonl@vibivi.co.kr?subject='+encodeURIComponent('결제 문의 '+(oid||''))+'">문의하기</a></div>'; return; }
+        var lic=d.license||{}, end=lic.ends_at?new Date(lic.ends_at):null;
+        var endTxt=end?end.getFullYear()+'년 '+(end.getMonth()+1)+'월 '+end.getDate()+'일':'';
+        head('ok','결제가 완료되었습니다','이용권이 계정에 발급되었습니다.'+(endTxt?' <b>'+endTxt+'</b>까지 이용할 수 있습니다.':''));
+        var tier=lic.tier||lic.plan;
+        var dynP=(tier==='dyn'||tier==='3m')?Promise.resolve(true):(tier==='plus')?Promise.resolve(false):(Number(q.get('amount'))===146700)?Promise.resolve(true)
+          :OC.sb.rpc('my_license').then(function(r){ var l=r.data||{}; return l.tier==='dyn'||l.plan==='dyn'||l.plan==='3m'; }).catch(function(){ return false; });
+        dynP.then(function(isDyn){ paint(isDyn); });
       });
-  }).catch(function(e){ H.textContent='오류'; Pp.textContent=String(e); });
+  }).catch(function(e){ head('no','오류가 발생했습니다',esc(e)); });
+
+  function paint(isDyn){
+    var mail='mailto:wichonl@vibivi.co.kr?subject=';
+    var rows='<div class="rw"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/></svg></span><span class="rt"><b>수강 기간 무제한 얼리기(일시정지) 안심 보험</b><span>갑자기 바빠져도 앱 설정과 오달이 상담실에서 남은 기간을 언제든 얼려두고 원하는 날 다시 이어갈 수 있습니다.</span></span></div>';
+    rows+='<div class="rw"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h10.5A3.5 3.5 0 0 1 19 8v11.5H8.5A3.5 3.5 0 0 1 5 16z"/><path d="M5 16a3.5 3.5 0 0 1 3.5-3.5H19"/></svg></span><span class="rt"><b>영어면접 변환 마스터북</b><span>오픽 대본을 대기업 · 외국계 영어면접 답변으로 바꿔 쓰는 오캔플러스 · 오캔 다이나믹 플러스 공통 제공 부록입니다. 앱 <b>설정 › 이용권 › 영어면접 변환 마스터북 열람 · 저장</b>에서 바로 읽고, PC 앱에서는 인쇄 · PDF 저장이 됩니다. 첫 열람 때 환불 기준 제외 안내에 동의하면 열립니다.</span></span></div>';
+    if(isDyn){
+      rows+='<div class="rw"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16M12 9v11M12 9c-1.5-3-5-3.5-5-1.2C7 9 9.5 9 12 9zm0 0c1.5-3 5-3.5 5-1.2C17 9 14.5 9 12 9z"/></svg></span><span class="rt"><b>응시료 장학금 50,000원</b><span>90일 이내 IH · AL 성적표와 합격 후기 1건을 <a href="'+mail+encodeURIComponent('장학금 신청 '+(oid||''))+'">wichonl@vibivi.co.kr</a> 로 보내 주시면 확인 후 지급합니다. 자세한 기준은 <a href="./terms">이용약관 제6조</a>.</span></span></div>';
+    }
+    var app=(OC.C&&OC.C.APP_URL)||'./#download';
+    B.innerHTML='<div class="rows">'+rows+'</div>'
+      +'<a class="btn btn-ink cta" href="'+app+'">지금 바로 학습 시작하기</a>'
+      +'<p class="after">앱이 이미 열려 있다면 <b>설정의 계정 메뉴에서 상태 새로고침</b>을 누르거나 잠금 안내의 <b>이미 구매했어요</b>를 누르면 모든 기능이 열립니다.<br>다른 기기에서도 같은 계정으로 로그인하면 됩니다. <a href="./#download">기기별 설치 파일 받기</a></p>'
+      +'<p class="contact">영수증은 결제한 카드사 · 카카오페이 · 네이버페이에서 확인할 수 있습니다.'+(oid?' 주문번호 '+esc(oid):'')+'</p>';
+  }
 })();
 </script>
-</main>
-<footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>서울특별시 강남구 논현로75길 15, 5층 501호 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a> · <a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a></footer>
+<footer>
+  <div class="fin">
+    <nav class="fl" aria-label="사이트 링크">
+      <a href="./textbook">교재구성</a><a href="./audience">수강 대상</a><a href="./buy">이용권 구매</a><a href="./terms">이용약관</a><a href="./privacy">개인정보처리방침</a><a href="./delete-account">계정 삭제 안내</a>
+    </nav>
+    <p>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393</p>
+    <p>서울특별시 강남구 논현로75길 15, 5층 501호 (역삼동, 역삼동 수양빌딩) · 전화 010-7107-0246 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a></p>
+    <p>OPIc은 ACTFL의 등록상표이며 본 서비스는 ACTFL 및 시험 주관사와 제휴 관계가 없습니다.</p>
+  </div>
+</footer>
+</div>
+</body>
+</html>

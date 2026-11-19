@@ -1,19 +1,90 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>이용약관 · 오캔스픽</title><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이용약관 · 오캔스픽</title>
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-:root{--navy:#20213B;--orange:#8F82CA;--paper:#F6F6FB;--ink:#0f1a26;--ink2:#3d4a5c;--mute:#6b7787;--line:#DDDCEA}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.75;font-size:15px}
-.nav{background:var(--navy);color:#fff;padding:14px 16px}.nav .in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;font-weight:900}.nav a{color:#fff;text-decoration:none}.nav small{font-weight:400;opacity:.6;margin-left:auto;font-size:12.5px}
-main{max-width:820px;margin:0 auto;padding:40px 16px 80px}h1{font-size:28px;font-weight:900;letter-spacing:-.02em;margin:0 0 6px}.meta{color:var(--mute);font-size:13px;margin-bottom:28px}
-h2{font-size:18px;font-weight:700;margin:34px 0 8px;padding-top:18px;border-top:1px solid var(--line)}h3{font-size:15.5px;margin:18px 0 4px}p,li{color:var(--ink2)}ul,ol{padding-left:20px}
-table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:#ECEBF5;font-weight:700}
-.box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}.todo{background:#F1EFFA;border:1px dashed var(--orange);border-radius:10px;padding:8px 12px;font-size:13px;color:#4E4587}
-footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-size:12.5px;line-height:1.9}footer a{color:var(--mute)}
-</style></head><body>
-<div class="nav"><div class="in"><a href="./">오캔스픽</a><small>ViBiVi Science Lab</small></div></div>
-<main>
+:root{
+  --bg:#FFFFFF;--chip:#F3F2FA;
+  --ink:#20213B;--sub:#5B5E80;--muted:#8B8EAD;
+  --line:#E4E3F0;--softline:#ECEBF5;--rowline:#F0EFF7;
+  --accent:#6E62B4;--lavender:#8F82CA;--lime:#D9EDB6;--olive:#55752E;--olivetext:#688B3E;
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.68;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.aurora-stage{position:fixed;inset:0;z-index:0;pointer-events:none;background:#FFFFFF;overflow:hidden}
+.aurora-stage i{position:absolute;border-radius:50%;opacity:.15;filter:blur(80px);will-change:transform}
+.aurora-stage .a1{top:-180px;left:-150px;width:540px;height:540px;background:radial-gradient(circle,#8F82CA 0%,rgba(143,130,202,0) 70%);animation:au1 16s ease-in-out infinite alternate}
+.aurora-stage .a2{bottom:-200px;right:-140px;width:580px;height:580px;background:radial-gradient(circle,#D9EDB6 0%,rgba(217,237,182,0) 72%);animation:au2 21s ease-in-out infinite alternate}
+@keyframes au1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(56px,40px,0) scale(1.12)}}
+@keyframes au2{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-50px,-44px,0) scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.aurora-stage i{animation:none}}
+.shell{position:relative;z-index:1}
+.frost-gnb{position:sticky;top:0;z-index:40;height:56px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.frost-gnb{background:rgba(255,255,255,.97)}}
+.frost-gnb .wrap{max-width:1080px;margin:0 auto;padding:0 20px;height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wordmark{font-size:18px;font-weight:800;letter-spacing:-.04em;color:var(--ink);text-decoration:none}
+.gnb-safe{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--sub)}
+.gnb-safe svg{width:15px;height:15px;color:var(--olivetext)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;border:0;font-weight:600;white-space:nowrap;text-decoration:none;transition:background-color .15s,border-color .15s,transform .12s}
+.btn:active{transform:scale(.98)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#303254}
+.btn-line{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-line:hover{border-color:#C9C6DE}
+.gnb-cta{height:34px;padding:0 15px;font-size:13px}
+main{max-width:720px;margin:0 auto;padding:44px 20px 88px}
+footer{border-top:1px solid var(--line);padding:32px 0 72px;font-size:12.5px;color:var(--muted);line-height:1.8}
+footer .fin{max-width:720px;margin:0 auto;padding:0 20px}
+footer .fl{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:14px}
+footer .fl a{color:var(--sub);font-weight:600;text-decoration:none}
+footer .fl a:hover{color:var(--ink)}
+footer p+p{margin-top:6px}
+footer p a{color:inherit}
+@media (max-width:560px){main{padding:30px 16px 72px}footer .fin{padding:0 16px}.frost-gnb .wrap{padding:0 16px}}
+
+.doc h1{font-size:28px;font-weight:800;letter-spacing:-.035em;line-height:1.3;margin:0 0 8px}
+.doc .meta{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:28px}
+.doc h2{font-size:17px;font-weight:700;letter-spacing:-.02em;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--softline)}
+.doc h3{font-size:15px;font-weight:700;margin:18px 0 6px}
+.doc p,.doc li{color:var(--sub);font-size:14.5px;line-height:1.78}
+.doc p+p{margin-top:8px}
+.doc b{color:var(--ink);font-weight:700}
+.doc ul,.doc ol{padding-left:20px;margin:8px 0}
+.doc li+li{margin-top:6px}
+.doc a{color:var(--accent)}
+.doc table{border-collapse:collapse;width:100%;font-size:13.5px;margin:10px 0}
+.doc th,.doc td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;color:var(--sub)}
+.doc th{background:var(--chip);color:var(--ink);font-weight:700}
+.doc .box{background:#fff;border:1px solid var(--line);border-radius:4px;padding:14px 16px;margin:12px 0;color:var(--sub);font-size:14px;line-height:1.75}
+.doc .todo{border:1px dashed var(--line);border-radius:4px;padding:8px 12px;font-size:13px;color:var(--sub)}
+@media (max-width:560px){.doc h1{font-size:24px}.doc table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="aurora-stage" aria-hidden="true"><i class="a1"></i><i class="a2"></i></div>
+<div class="shell">
+<header class="frost-gnb">
+  <div class="wrap">
+    <a class="wordmark" href="./" aria-label="오캔스픽 처음으로">오캔스픽</a>
+    <a class="btn btn-line gnb-cta" href="./">홈으로</a>
+  </div>
+</header>
+<main class="doc">
 <h1>오캔스픽 이용약관</h1>
-<div class="meta">시행일 2026년 9월 11일</div>
+<div class="meta">시행일 2026년 9월 11일 · 최신 개정일 2026년 11월 16일 (제6조)<br>개정 약관은 개정일 이후 결제분부터 적용되며, 개정 전에 결제한 이용자에게 불리하게 소급 적용되지 않습니다.</div>
 
 <h2>제1조 (목적)</h2>
 <p>이 약관은 바이비바이 사이언스랩(이하 "회사")이 제공하는 영어 말하기 학습 소프트웨어 「오캔스픽」(데스크톱 프로그램, 모바일 앱 및 웹, 이하 "서비스")의 이용과 관련하여 회사와 이용자의 권리·의무 및 책임사항을 정함을 목적으로 합니다.</p>
@@ -21,7 +92,7 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 <h2>제2조 (정의)</h2>
 <ol>
 <li>"이용자"란 이 약관에 따라 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
-<li>"회원"이란 이메일 또는 소셜 계정(네이버·Google·Apple)으로 가입한 이용자를 말합니다.</li>
+<li>"회원"이란 이메일 또는 소셜 계정(카카오 · 네이버 · Google · Apple)으로 가입한 이용자를 말합니다.</li>
 <li>"유료 서비스"란 회사가 대가를 받고 제공하는 기간제 이용권을 말합니다.</li>
 <li>"학습 데이터"란 이용자가 서비스를 이용하며 생성한 시험 기록, 표현 진도, 오답 노트, 자율학습 스크립트, 설정값 등을 말합니다.</li>
 </ol>
@@ -30,26 +101,32 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 <p>회사는 이 약관을 서비스 내 설정 화면과 홈페이지(www.ocanspic.com)에 게시합니다. 회사는 관련 법령을 위배하지 않는 범위에서 약관을 개정할 수 있으며, 개정 시 적용일자 7일 전(이용자에게 불리한 변경은 30일 전)부터 공지합니다.</p>
 
 <h2>제4조 (서비스의 내용)</h2>
+<p>회사가 현재 제공하는 서비스는 다음과 같습니다.</p>
 <ul>
-<li>OPIc 형식의 모의고사(배경 설문, 음성 문항 제시, 답변 녹음, 자동 채점 및 추정 등급 제공)</li>
-<li>필수표현 말하기 퀴즈, 간격 반복 트레이닝, 듣기 트레이닝, 자율학습, 학습 계획(오늘의 퀘스트)</li>
-<li>영어 음성 합성 및 음성 인식 기능(데스크톱 버전은 기기 내 오프라인 처리)</li>
+<li>OPIc 형식의 15문항 실전 모의고사(배경 설문, 난이도 선택, 음성 문항 제시, 답변 녹음, 문항 유형별 AI 채점 및 추정 등급 제공)</li>
+<li>AI 강사 오달이의 14일 일일 코칭, 학습 질문 답변 및 내 경험 맞춤 답안 영작 도움</li>
+<li>2주스퍼트 학습 교재, 주제별 모범답안과 만능 템플릿, 오늘의 퀘스트</li>
+<li>OCTC 훈련소(필수표현 말하기 퀴즈, 듣기 트레이닝, 자율학습, 진단 리포트)</li>
+<li>영어 음성 합성 및 음성 인식 기능</li>
+<li>오캔플러스 · 오캔 다이나믹 플러스 공통 제공 부록: 대기업·외국계 영어면접 변환 마스터북(앱 설정 › 이용권에서 열람 · 인쇄 · PDF 저장)</li>
+<li>오캔 다이나믹 플러스 이용자에게 제공되는 특전(응시료 장학금, 패자부활 연장 등, 제6조에서 정함)</li>
 </ul>
 <div class="box"><b>중요 고지.</b> 서비스가 제시하는 점수와 등급은 학습 보조를 위한 <b>추정치</b>이며, 실제 OPIc 시험 결과를 보장하지 않습니다. OPIc은 ACTFL의 등록상표이며, 회사와 본 서비스는 ACTFL 및 시험 주관사와 아무런 제휴 관계가 없습니다.</div>
 
 <h2>제5조 (회원가입과 계정)</h2>
 <ol>
 <li>회원가입은 이메일 또는 소셜 계정 인증으로 이루어지며, 만 14세 미만은 법정대리인의 동의가 필요합니다.</li>
-<li>계정은 본인만 사용할 수 있으며, 타인에게 양도·대여·공유할 수 없습니다. 하나의 계정은 동시에 최대 <b>2대</b>의 기기(예: 데스크톱 1대 + 모바일 1대)에서만 이용할 수 있으며, 초과 기기에서 로그인하면 가장 오래된 기기의 이용이 해제됩니다.</li>
+<li>계정은 본인만 사용할 수 있으며, 타인에게 양도·대여·공유할 수 없습니다. 하나의 계정을 동시에 이용할 수 있는 기기 수는 <b>오캔플러스 2대</b>(예: PC 1대 + 모바일 1대), <b>오캔 다이나믹 플러스 3대</b>(예: PC 1대 + 노트북 또는 태블릿 1대 + 모바일 1대)이며, 초과 기기에서 로그인하면 가장 오래된 기기의 이용이 해제됩니다.</li>
 <li>이용자는 서비스 내 설정에서 언제든 계정을 삭제할 수 있으며, 삭제 시 학습 데이터도 함께 삭제됩니다.</li>
 </ol>
 
 <h2>제6조 (유료 서비스, 결제, 청약철회)</h2>
 <ol>
-<li>유료 서비스는 <b>오캔다이나믹플러스 3개월 이용권 131,700원</b>, <b>오캔플러스 3개월 이용권 111,600원</b>(모두 부가세 포함 · 홈페이지 결제 기준)이며, 결제일부터 90일간 이용할 수 있습니다. 오캔플러스 이용 중 오캔다이나믹플러스로의 업그레이드는 27,000원이며 남은 이용 기간은 그대로 유지됩니다. 앱 마켓(Google Play, App Store) 안에서 결제하는 경우 마켓 수수료가 반영된 별도 가격(오캔다이나믹플러스 233,700원, 오캔플러스 188,700원, 업그레이드 30,000원)이 적용됩니다. 결제 수단은 신용·체크카드, 네이버페이, 카카오페이, 토스페이, 무통장입금(가상계좌)이며, 가격·상품 구성이 바뀌는 경우 결제 화면과 홈페이지에 사전 표시합니다.</li>
-<li>이용자는 결제일로부터 7일 이내이고 유료 서비스를 이용하지 않은 경우 전액 환불받을 수 있습니다. 이용을 개시한 뒤에는 「전자상거래 등에서의 소비자보호에 관한 법률」 제17조 제2항에 따라 청약철회가 제한될 수 있으나, 회사는 이용자 보호를 위해 <b>이용 개시 후에도 남은 기간에 대해 일할 계산(총 결제금액 × 남은 일수 ÷ 90)한 금액을 환불</b>합니다. 무통장입금 환불은 이용자가 알려 준 계좌로 영업일 기준 5일 이내에 처리합니다.</li>
+<li>유료 서비스는 홈페이지 결제 기준(부가세 포함) <b>오캔 다이나믹 플러스 3개월 이용권 146,700원</b>과 <b>오캔플러스 3개월 이용권 111,600원</b>입니다. 결제가 완료되면 즉시 회원 계정에 이용권이 발급되며, 결제일부터 90일간 이용할 수 있습니다. 오캔플러스는 15문항 실전 모의고사를 이용 기간 동안 <b>총 7회</b>까지 응시할 수 있고, 오캔 다이나믹 플러스는 이용 기간 동안 <b>횟수 제한 없이</b> 응시할 수 있습니다. 앱 마켓(Google Play, App Store) 안에서 결제하는 경우 마켓 수수료가 반영된 별도 가격(오캔 다이나믹 플러스 299,000원, 오캔플러스 188,700원)이 적용됩니다. 그 밖의 상품·옵션의 가격은 결제 화면에 표시된 금액을 따릅니다. 홈페이지 결제는 결제대행사 토스페이먼츠 주식회사 및 포트원(PortOne)을 통해 이루어지며, 결제 수단은 신용·체크카드 및 결제 화면에 표시되는 간편결제(카카오페이 · 네이버페이)입니다. 이용자는 앱에서 남은 이용 기간을 횟수 제한 없이 일시정지(얼리기)했다가 다시 이어서 이용할 수 있으며, 오캔 다이나믹 플러스 이용자는 목표 등급에 미달한 경우 계정당 1회 <b>30일 무상 연장</b>(패자부활 보증권)을 받을 수 있습니다. 가격·상품 구성이 바뀌는 경우 결제 화면과 홈페이지에 사전 표시합니다.</li>
+<li>이용자는 <b>결제일로부터 7일 이내</b>이면서 그동안 <b>실전 모의고사 2회 미만 응시</b>, <b>오달이 일일 코칭 Day 2 미만 진행</b>, <b>만능 템플릿 2개 미만 저장</b>, <b>시크릿 선물 미해금</b>, <b>영어면접 변환 마스터북 미열람</b>, <b>AI 강사(오달이)와 대화한 날이 첫날뿐</b>인 조건을 모두 충족하는 경우에 한하여 전액 환불받을 수 있습니다. 위 기준 중 하나라도 초과하여 이용하였거나 결제일로부터 7일이 지난 경우에는 핵심 디지털 콘텐츠의 제공이 개시된 것으로 보아 「전자상거래 등에서의 소비자보호에 관한 법률」 제17조 제2항 제5호에 따라 청약철회가 제한되며 환불되지 않습니다. 회사는 같은 법 제17조 제6항에 따라 이 사실을 결제 화면에 표시하고 결제 전 이용자의 동의를 받으며, 결제 전 첫날 체험으로 서비스를 시험 사용할 수 있게 합니다. 환불은 결제한 수단(카드 승인 취소, 간편결제 결제 취소)으로 처리합니다.</li>
 <li>서비스 장애 등 회사의 귀책사유로 이용하지 못한 기간이 있는 경우, 회사는 해당 기간만큼 이용 기간을 연장하거나 이용 요금을 일할 계산하여 환불합니다.</li>
 <li>모바일 앱에서 앱스토어(Google Play, App Store)를 통해 결제한 경우 환불은 각 스토어의 정책과 절차를 따릅니다.</li>
+<li><b>응시료 장학금.</b> 오캔 다이나믹 플러스 이용자가 결제일로부터 90일 이내에 실제 OPIc 시험에서 IH 또는 AL 등급을 취득하고, 성적표와 함께 개인 블로그 또는 취업 커뮤니티에 작성한 합격 후기 1건을 회사(wichonl@vibivi.co.kr)에 접수하면, 회사는 확인 후 응시료 장학금 50,000원을 이용자 본인 명의 계좌로 지급합니다. 장학금은 계정당 1회에 한하며, 후기에는 회사로부터 장학금을 받는다는 사실을 표시하여야 합니다. 성적표 위·변조 또는 허위 후기가 확인되면 회사는 지급을 거절하거나 지급한 장학금의 반환을 청구할 수 있습니다. 장학금 지급 여부는 제2항의 환불 기준에 영향을 주지 않습니다.</li>
 </ol>
 
 <h2>제7조 (지식재산권과 이용 제한)</h2>
@@ -69,12 +146,21 @@ footer{max-width:820px;margin:0 auto;padding:0 16px 40px;color:var(--mute);font-
 </ol>
 
 <h2>제10조 (분쟁 해결)</h2>
-<p>서비스 이용과 관련한 문의와 불만은 wichonl@vibivi.co.kr 로 접수하며, 회사는 접수일로부터 10영업일 이내에 처리 결과를 안내합니다. 이 약관은 대한민국 법률에 따르며, 분쟁이 발생한 경우 민사소송법상의 관할법원에 제소합니다.</p>
+<p>서비스 이용과 관련한 문의와 불만은 이메일(wichonl@vibivi.co.kr) 또는 전화(010-7107-0246)로 접수하며, 회사는 접수일로부터 10영업일 이내에 처리 결과를 안내합니다. 이 약관은 대한민국 법률에 따르며, 분쟁이 발생한 경우 민사소송법상의 관할법원에 제소합니다.</p>
 
 <h2>부칙</h2>
-<p>이 약관은 2026년 9월 11일부터 시행합니다.</p>
+<p>이 약관은 2026년 9월 11일부터 시행합니다.<br>개정 약관(제2조 · 제6조 · 제10조)은 2026년 11월 9일부터 시행합니다.<br>개정 약관(제2조 · 제4조 · 제5조 · 제6조)은 2026년 11월 14일부터 시행하며, 개정일 이후 결제분부터 적용합니다. 개정 전에 결제한 이용자에게는 개정 전 약관이 적용되며, 개정 내용이 이용자에게 유리한 경우에만 개정 약관을 적용합니다.<br>개정 약관(제6조: 영어면접 변환 마스터북 열람을 환불 제한 사유에 추가)은 2026년 11월 16일부터 시행하며, 개정일 이후 결제분부터 적용합니다.</p>
 </main>
-<footer>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393<br>
-서울특별시 강남구 논현로75길 15, 5층 501호 (역삼동, 역삼동 수양빌딩) · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a><br>
-<a href="terms">이용약관</a> · <a href="privacy">개인정보처리방침</a> · © 2026 ViBiVi Science Lab</footer>
-</body></html>
+<footer>
+  <div class="fin">
+    <nav class="fl" aria-label="사이트 링크">
+      <a href="./textbook">교재구성</a><a href="./audience">수강 대상</a><a href="./buy">이용권 구매</a><a href="./terms">이용약관</a><a href="./privacy">개인정보처리방침</a><a href="./delete-account">계정 삭제 안내</a>
+    </nav>
+    <p>바이비바이 사이언스랩 (ViBiVi Science Lab) · 대표 전유진 · 사업자등록번호 321-47-00921 · 통신판매업신고 2023-서울강남-03393</p>
+    <p>서울특별시 강남구 논현로75길 15, 5층 501호 (역삼동, 역삼동 수양빌딩) · 전화 010-7107-0246 · <a href="mailto:wichonl@vibivi.co.kr">wichonl@vibivi.co.kr</a></p>
+    <p>OPIc은 ACTFL의 등록상표이며 본 서비스는 ACTFL 및 시험 주관사와 제휴 관계가 없습니다.</p>
+  </div>
+</footer>
+</div>
+</body>
+</html>
