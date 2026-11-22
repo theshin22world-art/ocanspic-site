@@ -5,5 +5,6 @@ window.OCAN_CONFIG = {
   TOSS_CLIENT_KEY: 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm',     // 토스 개발자센터 → API 키 → 주문서형·결제창형(결제위젯) 클라이언트 키 (테스트 test_gck_… / 라이브 live_gck_…)
   PLAN: { id: '3m', name: '오캔스픽 3개월 이용권', amount: 112500, days: 90 },
   BASE: 'https://www.ocanspic.com',
-  NAVER_LOGIN: false       // 네이버 로그인은 출시 후 추가 예정 (true 로 바꾸면 버튼 표시)
+  NAVER_LOGIN: false,      // 네이버 로그인은 출시 후 추가 예정 (true 로 바꾸면 버튼 표시)
+  CLARITY_ID: 'zhiy34vsli'           // Microsoft Clarity 프로젝트 ID (clarity.microsoft.com → 설정 → 설치 코드의 ID, 예: 'abcd1234ef'). 비워 두면 Clarity 를 불러오지 않음
 };

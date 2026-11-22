@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="config.js"></script>
+<script src="tracker.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 /* 공용: Supabase 로그인 */
@@ -158,6 +159,17 @@ footer p a{color:inherit}
 #bumpNote{font-size:12.5px;color:var(--muted);margin:6px 2px 0}
 .care{display:flex;align-items:center;justify-content:center;gap:6px;margin:18px 0 8px;font-size:12.5px;color:var(--muted);text-align:center}
 .care svg{width:14px;height:14px;flex:none;color:var(--olivetext)}
+/* 2026-11-21 추천코드 (선택) */
+.refrow input{text-transform:uppercase;letter-spacing:.04em}
+.refrow input::placeholder{text-transform:none;letter-spacing:0}
+.refrow .btn{height:46px;padding:0 20px;border-radius:999px;font-size:14px}
+.refrow .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+#refMsg{font-size:12.5px;margin:6px 2px 0;color:var(--muted)}
+#refMsg.ok{color:var(--olivetext)}
+#refMsg.bad{color:#B4463C}
+.now .orig{font-size:15px;color:var(--muted);text-decoration:line-through;font-weight:500;font-variant-numeric:tabular-nums}
+.now .refb{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:var(--lime);color:#3F5A1E;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+#payBtn{font-variant-numeric:tabular-nums}
 #payBtn{display:flex;width:100%;height:48px;border-radius:999px;border:0;background:var(--ink);color:#fff;font-size:16px;font-weight:700;align-items:center;justify-content:center}
 #payBtn:hover:not(:disabled){background:#303254}
 #payBtn:disabled{opacity:.4;cursor:default}
@@ -196,13 +208,16 @@ footer p a{color:inherit}
     <p class="feel" id="planFeel"></p>
   </div>
   <ul class="feats" id="planFeats"></ul>
-  <div class="bridge" id="bridge" hidden><p><b>35,100원 차이</b>로 모의고사 무제한 · 장학금 50,000원 · 패자부활까지 모두 받을 수 있습니다.</p><button type="button" class="btn btn-ink" id="toDyn">다이나믹 플러스로 변경</button></div>
+  <div class="bridge" id="bridge" hidden><p><b>35,100원 차이</b>로 모의고사 무제한 · 장학금 50,000원 · AL 승급 스위치까지 모두 받을 수 있습니다.</p><button type="button" class="btn btn-ink" id="toDyn">다이나믹 플러스로 변경</button></div>
   <p id="planNote" hidden></p>
 </div>
 <div class="card">
 <div id="step1"><h2 class="stt">1. 학습할 계정 연결</h2><div id="authBox"></div></div>
 <div class="sec2" id="step2" style="display:none"><h2 class="stt">2. 결제 수단 및 특전 확인</h2>
   <div class="pms" id="pm"></div>
+  <label class="flab" for="refIn">추천코드 입력 (선택)</label>
+  <div class="row refrow"><input id="refIn" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="24" placeholder="코드가 있는 경우 입력"><button type="button" class="btn" id="refGo">적용</button></div>
+  <p id="refMsg" hidden></p>
   <label class="flab" for="tel">휴대폰 번호 (결제 확인용)</label>
   <div class="row"><input id="tel" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"></div>
   <div id="bump" hidden>
@@ -210,7 +225,7 @@ footer p a{color:inherit}
     <p id="bumpNote" hidden>체크를 해제해도 결제는 그대로 진행됩니다. 특전은 결제 완료 화면에서 다시 받을 수 있습니다.</p>
   </div>
   <label class="rf"><input type="checkbox" id="rfAgree"><span><b>환불 기준에 동의합니다.</b> 결제일로부터 7일 이내이면서 실전 모의고사 2회 미만, 오달이 일일 코칭 Day 2 미만, 만능 템플릿 2개 미만 저장, 시크릿 선물 미해금, 영어면접 변환 마스터북 미열람, 오달이 대화 첫날 조건을 모두 충족하는 경우에만 전액 환불됩니다. 하나라도 초과하거나 7일이 지나면 디지털 콘텐츠 제공이 개시된 것으로 보아 환불되지 않습니다 (전자상거래법 제17조 제2항 제5호). 자세한 내용은 <a href="./terms" target="_blank">이용약관 제6조</a>.</span></label>
-  <p class="care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>결제 즉시 이 계정에 이용권이 발급되고, 남은 기간은 앱에서 언제든 얼려둘 수 있습니다.</p>
+  <p class="care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>결제 즉시 이 계정에 이용권이 발급되고, 남은 기간은 앱에서 언제든 무제한 일시정지할 수 있습니다.</p>
   <button type="button" id="payBtn" disabled>146,700원 결제하기</button>
 </div>
 <div id="cfgWarn" style="display:none"><b>결제 준비 중입니다.</b><p>카드 · 카카오페이 · 네이버페이 결제를 곧 엽니다. 조금만 기다려 주세요.</p></div>
@@ -249,11 +264,14 @@ footer p a{color:inherit}
     plus:{id:'plus',name:'오캔플러스 3개월 이용권',tab:'오캔플러스',chip:'인기',amount:111600,orig:188700,monthly:37200,days:90,
       badge:'기본 연습형 · 웹 단독 41% 절감',def:'오픽 IH 기본기를 가볍게 연습하는 실속형 이용권',
       save:'(77,100원 절감)',diff:'',
-      feats:['오달이 14일 일일 코칭(IH 표준 트랙) + 2주스퍼트 교재 + OCTC 훈련소(필수표현 662 · 슬롯 모범답안 · 듣기 · 자율학습)','15문항 실전 AI 모의고사 총 7회 응시권 제한','오달이 1:1 전담 과외 &amp; "내 경험 맞춤 4단 영작·돌려막기 컨설팅" 무제한','"오픽 대본 그대로 돌려쓰는 대기업·외국계 영어면접 변환 마스터북(PDF)" 제공','동시 2대 기기 연동 (PC 1 + 모바일 1) &amp; D-3 시크릿 무기 2종'],
-      no:['응시료 장학금 50,000원 페이백 미포함','30일 무상 패자부활 보증권 &amp; 신규 자격증 자동 해금 미포함']}};
+      feats:['오달이 14일 일일 코칭(IH 표준 트랙) + 2주스퍼트 교재 + OCTC 훈련소(필수표현 662 · 슬롯 모범답안 · 듣기 · 틀린 문제 · 내 대본 말하기)','15문항 실전 AI 모의고사 총 7회 응시권 제한','오달이 1:1 전담 과외 &amp; "내 경험 맞춤 4단 영작·돌려막기 컨설팅" 무제한','"오픽 대본 그대로 돌려쓰는 대기업·외국계 영어면접 변환 마스터북(PDF)" 제공','동시 2대 기기 연동 (PC 1 + 모바일 1) &amp; D-3 시크릿 무기 2종'],
+      no:['응시료 장학금 50,000원 페이백 미포함','AL 하이패스 승급 스위치 &amp; 신규 자격증 자동 해금 미포함']}};
   function ssPlan(v){ try{ if(v) sessionStorage.setItem('ocan_buy_plan',v); else return sessionStorage.getItem('ocan_buy_plan'); }catch(e){ return null; } }
   var pid=q.get('plan'); if(!PLANS[pid]) pid=ssPlan(); if(!PLANS[pid]) pid='dyn'; ssPlan(pid);
   var P=PLANS[pid], myPlan=null;
+  /* 2026-11-21 추천코드: REF = { code, discount, type:'ref_link'|'manual_code' } (서버 partner-api 가 확인한 값만) */
+  var REF=null, ME=null, TR=window.OCAN_TRACKER||null;
+  function finalAmt(){ return P.amount-(REF?REF.discount:0); }
   function won(n){ return n.toLocaleString()+'원'; }
   var CK='<svg viewBox="0 0 24 24" fill="none" stroke="#688B3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.6"/></svg>', NO='<svg viewBox="0 0 24 24" fill="none" stroke="#8B8EAD" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 12h10"/></svg>';
   function paintTabs(){
@@ -274,12 +292,15 @@ footer p a{color:inherit}
     document.getElementById('planName').textContent=P.tab;
     document.getElementById('planDef').textContent=P.def;
     document.getElementById('planWas').textContent='앱스토어 기준 정가 '+won(P.orig)+' '+P.save;   /* 2026-11-15: 홈페이지 요금제 카드와 같은 표기 */
-    document.getElementById('planPrice').innerHTML='<strong>'+won(P.amount)+'</strong><span>월 환산 '+won(P.monthly)+' (부가세 포함)</span>';
+    var fa=finalAmt();
+    document.getElementById('planPrice').innerHTML=REF
+      ?'<s class="orig">'+won(P.amount)+'</s><strong>'+won(fa)+'</strong><span class="refb">추천코드 -'+won(REF.discount)+' 적용됨</span>'
+      :'<strong>'+won(P.amount)+'</strong><span>월 환산 '+won(P.monthly)+' (부가세 포함)</span>';
     var fl=document.getElementById('planFeel'); fl.className=pid==='dyn'?'feel':'diff'; fl.textContent=pid==='dyn'?P.feel:P.diff; fl.hidden=!fl.textContent;
     document.getElementById('planFeats').innerHTML=P.feats.map(function(f){ return '<li>'+CK+'<span>'+f+'</span></li>'; }).join('')+(P.no||[]).map(function(f){ return '<li class="no">'+NO+'<span>'+f+'</span></li>'; }).join('');
     document.getElementById('bridge').hidden=pid!=='plus';
     document.getElementById('bump').hidden=pid!=='dyn';
-    document.getElementById('payBtn').textContent=won(P.amount)+' 결제하기';
+    document.getElementById('payBtn').textContent=won(finalAmt())+' 결제하기';
   }
   /* 이미 이용권이 있는 계정 안내 (my_license 결과 기준) */
   function paintLic(){
@@ -290,11 +311,35 @@ footer p a{color:inherit}
     n.textContent=t; n.hidden=!t;
   }
   document.getElementById('toDyn').onclick=function(){ setPlan('dyn'); window.scrollTo({top:0,behavior:'smooth'}); };
+  /* ---- 추천코드 ---- */
+  function papi(body,tk){ return fetch(C.SUPABASE_URL+'/functions/v1/partner-api',{method:'POST',headers:{'content-type':'application/json',apikey:C.SUPABASE_ANON_KEY,authorization:'Bearer '+(tk||C.SUPABASE_ANON_KEY)},body:JSON.stringify(body)})
+    .then(function(r){ return r.json().catch(function(){ return {error:'서버 응답 오류 ('+r.status+')'}; }); }); }
+  function refMsg(t,cls){ var m=document.getElementById('refMsg'); m.textContent=t||''; m.className=cls||''; m.hidden=!t; }
+  function paintRef(){ var inp=document.getElementById('refIn'), b=document.getElementById('refGo');
+    if(REF){ inp.value=REF.code; inp.readOnly=true; b.textContent='적용 취소'; b.className='btn ghost'; }
+    else { inp.readOnly=false; b.textContent='적용'; b.className='btn'; }
+    paintPlan(); }
+  function normRef(v){ return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'').slice(0,24); }
+  function applyRef(code,type,quiet){ code=normRef(code); if(!code||!C.SUPABASE_URL) return Promise.resolve(false);
+    return papi({action:'validate_code',code:code,userEmail:ME&&ME.email||undefined}).then(function(d){
+      if(d&&d.ok){ REF={code:d.code,discount:Number(d.discount_amount)||0,type:type}; paintRef(); refMsg('결제 금액에서 '+won(REF.discount)+'이 할인됩니다.','ok'); if(TR) TR.tag('ref_code',d.code); return true; }
+      if(!quiet) refMsg((d&&d.message)||'유효하지 않은 추천코드입니다.','bad');
+      return false; }).catch(function(){ if(!quiet) refMsg('추천코드를 확인하지 못했습니다. 잠시 뒤 다시 시도해 주세요.','bad'); return false; }); }
+  function clearRef(msg){ REF=null; paintRef(); refMsg(msg||'',msg?'bad':''); }
+  document.getElementById('refGo').onclick=function(){
+    if(REF){ clearRef(); document.getElementById('refIn').value=''; document.getElementById('refIn').focus(); return; }
+    var v=document.getElementById('refIn').value; if(!normRef(v)){ refMsg('추천코드를 입력해 주세요.','bad'); return; }
+    applyRef(v,'manual_code',false); };
+  document.getElementById('refIn').onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('refGo').click(); } };
+  document.getElementById('refIn').oninput=function(){ var i=this, p=i.selectionStart, v=i.value.toUpperCase(); if(v!==i.value){ i.value=v; try{ i.setSelectionRange(p,p); }catch(e){} } };
+  /* 7일 안에 받은 ?ref= (주소 또는 이 브라우저 보관값) 을 자동 적용 */
+  function autoRef(){ var code=normRef(q.get('ref'))||(TR&&normRef(TR.getValidAttr().ref)); if(code&&!REF) return applyRef(code,'ref_link',true); return Promise.resolve(false); }
   paintTabs(); paintPlan(); paintLic();
   var pms=Object.keys(PM);
   if(!OC.sb||!CH){ document.getElementById('cfgWarn').style.display=''; document.getElementById('step1').style.display='none'; return; }
   OC.user().then(function(u){
     var box=document.getElementById('authBox');
+    ME=u||null; autoRef();
     if(!u){ box.innerHTML=OC.loginHTML(); OC.wire(box); return; }
     box.innerHTML='<div class="me"><span class="av"></span><span class="who">로그인됨 · <b>'+(u.email||'')+'</b></span><button class="btn ghost" id="out">다른 계정으로</button></div>';
     document.getElementById('out').onclick=OC.signOut;
@@ -318,13 +363,21 @@ footer p a{color:inherit}
           TossPayments(PORTONE.review.tossClientKey).payment({customerKey:u.id}).requestPayment({method:'CARD',amount:{currency:'KRW',value:P.amount},orderId:orderId,orderName:P.name,successUrl:back+'ok',failUrl:back+'fail',customerEmail:u.email||undefined,customerMobilePhone:tel})
             .catch(function(e){ btn.disabled=false; if(!e||e.code!=='USER_CANCEL') alert((e&&e.message)||e); });
           return; }
-        OC.sb.from('orders').insert({id:orderId,user_id:u.id,amount:P.amount,plan:P.id,status:'ready'}).then(function(r){
-          if(r.error){ if(/foreign key|orders_user_id_fkey/i.test(r.error.message||'')){ alert('로그인 정보가 만료되었거나 삭제된 계정입니다. 다시 로그인해 주세요.'); OC.sb.auth.signOut().finally(function(){ location.reload(); }); return; } alert('주문 생성 실패: '+r.error.message); btn.disabled=false; return; }
+        /* 2026-11-21: 주문은 서버(partner-api create_order)가 만든다. 결제 금액도 서버가 돌려준 값으로 (추천코드 할인 반영) */
+        var at=(TR&&TR.getValidAttr())||{}, utm={}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){ if(at[k]) utm[k]=at[k]; });
+        OC.token().then(function(tk){ if(!tk) throw new Error('로그인이 풀렸습니다. 다시 로그인해 주세요.');
+          return papi({action:'create_order',plan:P.id,partnerCode:REF?REF.code:undefined,attributionType:REF?REF.type:undefined,utm:utm,landingPage:at.landing_page||'',referrer:at.referrer||document.referrer||'',phone:tel},tk); }).then(function(d){
+          if(!d||d.error||!d.orderId){ var er=(d&&d.error)||'주문 생성 실패';
+            if(d&&d.reason==='user'){ alert(er); OC.sb.auth.signOut().finally(function(){ location.reload(); }); return; }
+            if(d&&(d.reason==='invalid'||d.reason==='self')){ clearRef(er); btn.disabled=false; return; }
+            alert(er); btn.disabled=false; return; }
+          orderId=d.orderId; var amt=Number(d.amount), oname=d.orderName||P.name;
+          if(TR){ TR.tag('order_id',orderId); TR.tag('plan',P.id); TR.tag('checkout','start'); }
           /* 토스페이먼츠 실결제: 성공하면 pay-success?paymentKey=…&orderId=…&amount=… 로 돌아와 toss-confirm 이 승인 · 이용권 발급 */
           if(TOSS&&sel==='card'){ var base=(C.BASE||location.origin);
-            return TossPayments(PORTONE.toss.live).payment({customerKey:u.id}).requestPayment({method:'CARD',amount:{currency:'KRW',value:P.amount},orderId:orderId,orderName:P.name,successUrl:base+'/pay-success',failUrl:base+'/pay-fail',customerEmail:u.email||undefined,customerMobilePhone:tel})
+            return TossPayments(PORTONE.toss.live).payment({customerKey:u.id}).requestPayment({method:'CARD',amount:{currency:'KRW',value:amt},orderId:orderId,orderName:oname,successUrl:base+'/pay-success',failUrl:base+'/pay-fail',customerEmail:u.email||undefined,customerMobilePhone:tel})
               .catch(function(e){ btn.disabled=false; if(!e||e.code!=='USER_CANCEL') alert((e&&e.message)||e); }); }
-          var md=u.user_metadata||{}, req={storeId:PORTONE.storeId,channelKey:PM[sel].ch,paymentId:orderId,orderName:P.name,totalAmount:P.amount,currency:'KRW',payMethod:PM[sel].pay,
+          var md=u.user_metadata||{}, req={storeId:PORTONE.storeId,channelKey:PM[sel].ch,paymentId:orderId,orderName:oname,totalAmount:amt,currency:'KRW',payMethod:PM[sel].pay,
             redirectUrl:(C.BASE||location.origin)+'/pay-success',customer:{customerId:u.id,fullName:md.name||md.full_name||'고객',email:u.email||undefined,phoneNumber:tel}};
           /* 카카오페이 · 네이버페이: KCP 결제창에서 해당 간편결제를 바로 연다 */
           if(PM[sel].ep) req.easyPay={easyPayProvider:PM[sel].ep};
@@ -340,12 +393,6 @@ footer p a{color:inherit}
     });
   });
 })();
-</script>
-<script>
-/* 파트너스(?ref=) · 광고 UTM: 구매 페이지로 바로 들어온 경우에도 14일 보관 (주문 데이터에는 넣지 않음) */
-(function(){ try{ var q=new URLSearchParams(location.search), got={}, any=false;
-  ['ref','utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){ var v=q.get(k); if(v){ got[k]=v; any=true; } });
-  if(any) localStorage.setItem('ocan_attr_v1',JSON.stringify({p:got,ts:Date.now()})); }catch(e){} })();
 </script>
 </main>
 <footer>
