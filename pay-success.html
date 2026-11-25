@@ -15,12 +15,12 @@
 window.OC=(function(){
   var C=window.OCAN_CONFIG||{}; var sb=(C.SUPABASE_URL&&C.SUPABASE_ANON_KEY&&window.supabase)?window.supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY,{auth:{flowType:'pkce',persistSession:true}}):null;
   var here=location.origin+location.pathname;
-  function loginHTML(){ return '<div class="lg">'
+  function loginHTML(){ return '<div class="lg"><p class="lg-warn">※결제 시 사용한 것과 동일한 로그인 수단을 선택해주세요.</p>'
     +(C.NAVER_LOGIN?'<button class="lgb naver" data-p="naver">네이버로 로그인</button>':'')
     +'<button class="lgb" data-p="google">Google로 로그인</button><button class="lgb apple" data-p="apple">Apple로 로그인</button><button class="lgb kakao" data-p="kakao">카카오로 로그인</button>'
     +'<button class="lgb email" data-p="email">이메일로 가입 또는 로그인</button>'
     +'<div class="row" id="emBox" style="display:none"><input id="emIn" type="email" placeholder="이메일 주소"><button class="btn" id="emGo">계속</button></div>'
-    +'<p class="sub" style="text-align:center;font-size:12.5px;margin:6px 0 0">앱에서 쓰는 계정과 같은 계정으로 로그인하세요. 이용권은 이 계정에 붙습니다.</p></div>'; }
+    +'</div>'; }
   function wire(el){
     var code=false,email='';
     el.querySelectorAll('[data-p]').forEach(function(b){ b.onclick=function(){ var p=b.dataset.p;
@@ -101,7 +101,7 @@ footer p a{color:inherit}
 .psub{margin-top:8px;text-align:center;font-size:14.5px;color:var(--sub)}
 .psub b{color:var(--ink)}
 .pmeta{margin-top:6px;text-align:center;font-size:12.5px;color:var(--muted)}
-.rows{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:6px}
+.rows{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:6px}
 .rw{display:flex;align-items:center;gap:14px;padding:16px 18px}
 .rw+.rw{border-top:1px solid var(--rowline)}
 .rw .ri{width:36px;height:36px;flex:none;border-radius:50%;background:var(--chip);display:grid;place-items:center;color:var(--accent)}
@@ -111,10 +111,22 @@ footer p a{color:inherit}
 .rw .rt span{display:block;font-size:13px;color:var(--sub);line-height:1.6;margin-top:2px}
 .rw .rt a{color:var(--accent)}
 .rw .btn{height:34px;padding:0 14px;font-size:13px;flex:none}
-.cta{display:flex;width:100%;height:50px;margin-top:24px;font-size:16px;font-weight:700}
 .after{margin-top:14px;text-align:center;font-size:13px;color:var(--sub);line-height:1.7}
 .after b{color:var(--ink)}
 .after a{color:var(--accent)}
+/* 결제 완료: 같은 계정 안내 + 기기별 앱 설치 */
+.same{margin-top:24px;padding:16px 18px;border:1.5px solid #D92D20;border-radius:6px;background:#FFF5F4;text-align:left;word-break:keep-all;overflow-wrap:break-word}
+.same b{display:block;font-size:15px;font-weight:800;line-height:1.5;color:#B42318;letter-spacing:-.02em}
+.same span{display:block;margin-top:6px;font-size:13.5px;line-height:1.6;color:var(--ink)}
+.same span em{font-style:normal;font-weight:700}
+.dlh{margin:26px 0 10px;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.dls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dls a{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:58px;padding:9px 14px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);text-decoration:none}
+.dls a.mine{background:var(--ink);border-color:var(--ink);color:#fff}
+.dls small{font-size:11.5px;color:var(--muted);line-height:1.4}
+.dls a.mine small{color:#C9C8DC}
+.dls b{font-size:14.5px;font-weight:700;letter-spacing:-.02em;line-height:1.4;white-space:nowrap}
+.dlmsg{min-height:20px;margin:8px 0 0;text-align:center;font-size:13px;line-height:1.5;color:var(--sub);word-break:keep-all}
 .acts{display:flex;gap:8px;justify-content:center;margin-top:24px;flex-wrap:wrap}
 .acts .btn{height:44px;padding:0 22px;font-size:14.5px}
 .kept{margin-top:26px;display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:13.5px;color:var(--sub)}
@@ -126,10 +138,12 @@ footer p a{color:inherit}
 .contact{margin-top:22px;text-align:center;font-size:12.5px;color:var(--muted)}
 .contact a{color:var(--sub)}
 /* 로그인(승인 마무리용) */
-.lg{display:grid;gap:8px;max-width:400px;margin:26px auto 0}
+.lg{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;max-width:400px;margin:26px auto 0}
+.lg>*{min-width:0;max-width:100%}
+.lg-warn{margin:0 0 4px;font-size:13.5px;font-weight:600;line-height:1.5;color:#D92D20;word-break:keep-all;overflow-wrap:break-word}
 .lgb{display:flex;align-items:center;justify-content:center;height:46px;width:100%;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:14.5px;font-weight:600;color:var(--ink)}
 .lgb.naver{background:#03C75A;color:#fff;border-color:#03C75A}.lgb.apple{background:#000;color:#fff;border-color:#000}.lgb.kakao{background:#FEE500;color:#191919;border-color:#FEE500}.lgb.email{color:var(--sub)}
-.row{display:flex;gap:8px}.row input{flex:1;min-width:0;height:46px;border:1px solid var(--line);border-radius:6px;padding:0 14px;font:inherit;font-size:15px;color:var(--ink)}
+.row{display:flex;gap:8px}.row input{flex:1;min-width:0;width:100%;height:46px;border:1px solid var(--line);border-radius:6px;padding:0 14px;font:inherit;font-size:15px;color:var(--ink)}
 .row .btn{height:46px;padding:0 18px;border-radius:6px;background:var(--ink);color:#fff}
 .lg .sub{text-align:center;font-size:12.5px;color:var(--muted);margin:4px 0 0}
 @media (max-width:560px){.ph{font-size:23px}.rw{flex-wrap:wrap}.rw .btn{margin-left:50px}}
@@ -185,11 +199,27 @@ footer p a{color:inherit}
     if(isDyn){
       rows+='<div class="rw"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16M12 9v11M12 9c-1.5-3-5-3.5-5-1.2C7 9 9.5 9 12 9zm0 0c1.5-3 5-3.5 5-1.2C17 9 14.5 9 12 9z"/></svg></span><span class="rt"><b>응시료 장학금 50,000원</b><span>90일 이내 IH · AL 성적표와 합격 후기 1건을 <a href="'+mail+encodeURIComponent('장학금 신청 '+(oid||''))+'">wichonl@vibivi.co.kr</a> 로 보내 주시면 확인 후 지급합니다. 자세한 기준은 <a href="./terms">이용약관 제6조</a>.</span></span></div>';
     }
-    var app=(OC.C&&OC.C.APP_URL)||'./#download';
-    B.innerHTML='<div class="rows">'+rows+'</div>'
-      +'<a class="btn btn-ink cta" href="'+app+'">지금 바로 학습 시작하기</a>'
-      +'<p class="after">앱이 이미 열려 있다면 <b>설정의 계정 메뉴에서 상태 새로고침</b>을 누르거나 잠금 안내의 <b>이미 구매했어요</b>를 누르면 모든 기능이 열립니다.<br>다른 기기에서도 같은 계정으로 로그인하면 됩니다. <a href="./#download">기기별 설치 파일 받기</a></p>'
+    /* 2026-11-25: 결제에 쓴 로그인 수단과 같은 계정으로 앱에 로그인하라는 안내 + 기기별 앱 설치 버튼 */
+    var ua=navigator.userAgent, os=/Windows/.test(ua)?'windows':/Macintosh/.test(ua)?'mac':/Android/.test(ua)?'android':/iPhone|iPad/.test(ua)?'ios':null;
+    var DL=[['windows','Windows 10 · 11','Windows 설치','https://get.microsoft.com/installer/download/9NL57SHQ2BJD?cid=ocanspic_web'],
+            ['mac','macOS 12+','Mac 설치','https://github.com/theshin22world-art/ocanspic-desktop/releases/latest/download/OCansPic-mac-universal.dmg'],
+            ['android','Google Play','Android 설치','https://play.google.com/store/apps/details?id=kr.co.vibivi.ocanspic'],
+            ['ios','App Store · 오픈 준비 중','iPhone 설치','#']];
+    if(os) DL.sort(function(a,b){ return (b[0]===os)-(a[0]===os); });
+    var dls=DL.map(function(d){ return '<a data-os="'+d[0]+'" href="'+d[3]+'"'+(d[0]===os?' class="mine"':'')+'><small>'+d[1]+'</small><b>'+d[2]+'</b></a>'; }).join('');
+    B.innerHTML='<div class="same" id="same"><b>방금 결제에 사용하신 로그인 수단(Google/Kakao/Apple/이메일 등)과 반드시 동일한 계정으로 앱에 로그인해 주세요.</b><span>다른 수단으로 로그인하면 다른 계정으로 인식되어 이용권이 보이지 않습니다.</span></div>'
+      +'<h2 class="dlh">기기별 앱 설치</h2><div class="dls">'+dls+'</div><p class="dlmsg" id="dlMsg" role="status"></p>'
+      +'<div class="rows">'+rows+'</div>'
+      +'<p class="after">앱이 이미 열려 있다면 <b>설정의 계정 메뉴에서 상태 새로고침</b>을 누르거나 잠금 안내의 <b>이미 구매했어요</b>를 누르면 모든 기능이 열립니다.</p>'
       +'<p class="contact">영수증은 결제한 카드사 · 카카오페이 · 네이버페이에서 확인할 수 있습니다.'+(oid?' 주문번호 '+esc(oid):'')+'</p>';
+    var msg=document.getElementById('dlMsg');
+    B.querySelectorAll('.dls a').forEach(function(a){ a.onclick=function(e){ var t=a.getAttribute('data-os');
+      if(t==='ios'){ e.preventDefault(); msg.textContent='iPhone 버전은 현재 App Store 심사 중입니다. PC나 Android에서 먼저 이용해 보세요!'; return; }
+      if(t==='windows'&&(os==='android'||os==='ios'||os==='mac')){ e.preventDefault(); msg.textContent='Windows PC에서 접속하시면 설치 파일이 바로 다운로드됩니다.'; return; }
+      msg.textContent=''; }; });
+    /* 이번 결제에 쓴 로그인 수단과 계정을 그대로 보여 준다 */
+    OC.user().then(function(u){ if(!u) return; var pv=(u.app_metadata&&u.app_metadata.provider)||'', nm={google:'Google',kakao:'카카오',apple:'Apple',email:'이메일',naver:'네이버'}[pv]||pv;
+      if(!nm&&!u.email) return; var sp=document.createElement('span'); sp.innerHTML='이번 결제 계정: <em>'+esc(nm?nm+' 로그인':'')+(u.email?(nm?' · ':'')+esc(u.email):'')+'</em>'; document.getElementById('same').appendChild(sp); }).catch(function(){});
   }
 })();
 </script>
