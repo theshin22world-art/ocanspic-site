@@ -176,6 +176,9 @@ body{background:#fff;color:var(--ink);font:16px/1.55 var(--font);-webkit-font-sm
 .oh .sc-ind button{width:8px;height:8px;border-radius:99px;background:#CFCCE0;transition:width .45s var(--ease),background .45s}
 .oh .sc-ind button.on{width:32px;background:var(--navy)}
 .oh .sc-stage{flex:1;min-height:0;display:grid;max-width:1180px;width:100%;margin:clamp(16px,2.6vh,32px) auto 0}
+.oh .sc.cmp .sc-sub{max-height:0;opacity:0;margin-top:0}   /* 넓은 화면도 좁은 화면처럼: 쇼케이스에 들어오면 부제를 접고 회색 박스를 위로 */
+.oh .sc.cmp .sc-ind{margin-top:14px}
+@media (min-width:760px){.oh .sc-panel.p1>*{position:relative;top:clamp(-40px,-3vh,-16px)}}   /* 01 약속 글 전체를 같은 거리만큼 위로 */
 .oh .sc-panel{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:clamp(22px,3.4vw,56px);align-items:center;min-height:0;background:var(--panel);border-radius:16px;padding:clamp(20px,2.6vw,40px) clamp(20px,3.4vw,56px);opacity:0;visibility:hidden;transform:translateY(18px);transition:opacity .55s var(--ease),transform .7s var(--ease),visibility 0s .7s}
 .oh .sc-panel.on{opacity:1;visibility:visible;transform:none;transition:opacity .55s var(--ease) .08s,transform .7s var(--ease) .08s,visibility 0s}
 .oh .sc-q{margin:0;font-size:calc(clamp(24px,2.5vw,40px) + 1pt);font-weight:700;line-height:1.3;letter-spacing:-.04em;color:var(--ink)}
@@ -496,7 +499,7 @@ footer.foot .cp{display:block;width:100%;margin-top:6px;font-size:14px}
 
 <!-- [SECTION 8: BENEFIT START] 오캔 다이나믹 플러스 영어 시작 혜택 (원본 골격 · 글 · 사진 · 펼침 동작 유지, 카드만 2단 Grid 로 정리) -->
 <style>
-.bn{position:relative;z-index:1;margin:calc(.4 * clamp(30px,4vw,60px) - .6 * (clamp(18px,3vh,34px) + 62px)) var(--hm) 0;border-radius:var(--r);background:#20213B;color:#fff;font-family:var(--font);word-break:keep-all;overflow:hidden}
+.bn{position:relative;z-index:1;margin:calc(.4 * clamp(30px,4vw,60px) - .6 * (clamp(18px,3vh,34px) + 62px)) auto 0;width:min(1180px,calc(100% - 2 * var(--pad)));border-radius:var(--r);background:#20213B;color:#fff;font-family:var(--font);word-break:keep-all;overflow:hidden}
 .bn .in{max-width:1040px;margin:0 auto;padding:clamp(28px,3.5vw,56px) clamp(16px,3vw,32px) clamp(64px,8vw,120px)}
 .bn-hd{position:relative;padding-right:clamp(110px,18vw,190px)}
 .bn-hd h2{margin:0;font-size:clamp(30px,4vw,58px);line-height:1.12;font-weight:700;letter-spacing:-.045em}
@@ -540,7 +543,7 @@ footer.foot .cp{display:block;width:100%;margin-top:6px;font-size:14px}
 .bc.od .ln{height:1px;margin:16px 0;background:#cfc8ea}
 .bc.od .bd{margin:0;font-size:clamp(13.5px,1.1vw,15px);line-height:1.7;color:#33355A}
 @media (max-width:759px){
-  .bn{margin-top:calc(.4 * clamp(30px,4vw,60px) - .6 * 64px)}
+  .bn{margin-top:calc(.4 * clamp(30px,4vw,60px) - .6 * 64px);width:calc(100% - 32px)}   /* 위 회색 박스와 같은 폭 */
   .bn-hd{padding-right:96px}
   .bn-gift{width:96px}
   .bc{grid-template-columns:1fr}
