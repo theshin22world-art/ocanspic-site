@@ -46,29 +46,49 @@ window.OC=(function(){
   function noteLogin(u){ var t=null; try{ t=JSON.parse(ls(LT)||'null'); }catch(e){} if(t&&t.p&&Date.now()-t.ts<600000) loginDone(t.p); else if(t) ls(LT,null); return u; }
   function loginHTML(){ var last=ls(LP), rec=function(p){ return p===last?'<span class="lgrec" aria-hidden="true">최근 사용</span>':''; };
     return '<div class="lg"><p class="lg-warn">※결제 시 사용한 것과 동일한 로그인 수단을 선택해주세요.</p>'
+    +'<div class="lgfold" id="lgFold"><div class="lgfold-in">'   /* 2026-11-26 이메일을 누르면 이 버튼 묶음이 위로 접힌다 */
     +(C.NAVER_LOGIN?'<button class="lgb naver" data-p="naver">'+rec('naver')+'네이버로 로그인</button>':'')
     +'<button class="lgb" data-p="google">'+rec('google')+'Google로 로그인</button><button class="lgb apple" data-p="apple">'+rec('apple')+'Apple로 로그인</button><button class="lgb kakao" data-p="kakao">'+rec('kakao')+'카카오로 로그인</button>'
-    +'<button class="lgb email" data-p="email">'+rec('email')+'이메일로 가입 또는 로그인</button>'
+    +'<button class="lgb email" data-p="email">'+rec('email')+'이메일로 가입 또는 로그인</button></div></div>'
     +'<div class="fld" id="emBox" style="display:none"><label class="flab" for="emIn">이메일 주소</label><div class="row"><input id="emIn" type="email" placeholder="example@email.com" autocomplete="email"><button class="btn" id="emGo">계속</button></div>'
     +'<div id="emCodeW" hidden><label class="flab" for="emCode">인증번호 입력</label><div class="row"><input id="emCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="메일로 받은 숫자 코드"><button class="btn" id="emCodeGo">확인</button></div></div>'
     +'<div id="emPwW" hidden><label class="flab" for="emPw" id="emPwLab">비밀번호 입력</label><div class="row pwrow"><input id="emPw" type="password" autocomplete="current-password" placeholder="비밀번호"><button type="button" class="pweye" id="emEye" aria-pressed="false">보기</button><button class="btn" id="emPwGo">로그인</button></div></div>'
+    +'<div id="emSetW" hidden><label class="flab" for="emSp1" id="emSpLab1">비밀번호 (6자 이상)</label><div class="row pwrow"><input id="emSp1" type="password" autocomplete="new-password" placeholder="6자 이상"><button type="button" class="pweye" data-eye="emSp1" aria-pressed="false">보기</button></div>'
+    +'<label class="flab emsp2" for="emSp2" id="emSpLab2">비밀번호 확인</label><div class="row pwrow"><input id="emSp2" type="password" autocomplete="new-password" placeholder="비밀번호를 한 번 더 입력"><button type="button" class="pweye" data-eye="emSp2" aria-pressed="false">보기</button></div>'
+    +'<button class="btn emsetgo" id="emSetGo" disabled>다음</button></div>'
     +'<button type="button" class="emforgot" id="emForgot" hidden>비밀번호를 잊으셨나요? (이메일 인증으로 재설정)</button>'
-    +'<p class="emmsg" id="emMsg" role="status"></p></div>'
+    +'<p class="emmsg" id="emMsg" role="status"></p><button type="button" class="emother" id="emOther">다른 계정으로 로그인</button></div>'
     +'</div>'; }
   function wire(el){
     var $=function(id){ return el.querySelector('#'+id); };
-    var email='', mode='';   /* mode: '' · 'code'(인증번호) · 'login'(비밀번호 로그인) · 'set'(비밀번호 설정) */
+    var email='', mode='', why='first';   /* mode: '' · 'code'(인증번호) · 'login'(비밀번호 로그인) · 'set'(비밀번호 + 비밀번호 확인)
+      2026-11-26 지령서 TASK #007: 단계별로 하나씩. ① 처음: 인증번호 칸만 → ② 인증되면 비밀번호 + 비밀번호 확인 2칸 · 「다음」(같고 6자 이상일 때만) → ③ 서버 저장이 끝나야 진행.
+      비밀번호를 정한 계정(서버 'password' 또는 이 기기 ocan_pw_emails)은 코드 없이 비밀번호 칸만 */
+    var PWE='ocan_pw_emails';
+    function pwList(){ try{ var a=JSON.parse(ls(PWE)||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+    function pwHas(v){ return pwList().indexOf(String(v||'').trim().toLowerCase())>=0; }
+    function pwAdd(v){ v=String(v||'').trim().toLowerCase(); if(!v) return; var a=pwList(); if(a.indexOf(v)<0){ a.push(v); ls(PWE,JSON.stringify(a.slice(-20))); } }
     function msg(t,bad){ var m=$('emMsg'); m.textContent=t||''; m.className='emmsg'+(bad?' bad':''); }
-    function show(m){ mode=m; $('emCodeW').hidden=m!=='code'; $('emPwW').hidden=!(m==='login'||m==='set'); $('emForgot').hidden=m!=='login'; $('emGo').hidden=!!m;
-      if(m==='login'||m==='set'){ var pw=$('emPw'); pw.value=''; pw.type='password'; $('emEye').textContent='보기'; $('emEye').setAttribute('aria-pressed','false');
-        pw.autocomplete=m==='set'?'new-password':'current-password'; pw.placeholder=m==='set'?'6자 이상':'비밀번호';
-        $('emPwLab').textContent=m==='set'?'비밀번호 설정 (다음 로그인부터 사용, 6자 이상)':'비밀번호 입력'; $('emPwGo').textContent=m==='set'?'저장하고 계속':'로그인'; setTimeout(function(){ pw.focus(); },30); }
+    function show(m){ mode=m; $('emCodeW').hidden=!(m==='code'||m==='set'); $('emPwW').hidden=m!=='login'; $('emSetW').hidden=m!=='set'; $('emForgot').hidden=m!=='login'; $('emGo').hidden=!!m;
+      $('emCode').disabled=m==='set'; $('emCodeGo').hidden=m==='set';
+      if(m==='login'){ var pw=$('emPw'); pw.value=''; pw.type='password'; $('emEye').textContent='보기'; $('emEye').setAttribute('aria-pressed','false');
+        pw.autocomplete='current-password'; pw.placeholder='비밀번호'; $('emPwLab').textContent='비밀번호 입력'; $('emPwGo').textContent='로그인'; setTimeout(function(){ pw.focus(); },30); }
+      if(m==='set'){ ['emSp1','emSp2'].forEach(function(id){ var i=$(id); i.value=''; i.type='password'; var e=el.querySelector('[data-eye="'+id+'"]'); e.textContent='보기'; e.setAttribute('aria-pressed','false'); });
+        $('emSpLab1').textContent=why==='reset'?'새 비밀번호 (6자 이상)':'비밀번호 (6자 이상)'; $('emSpLab2').textContent=why==='reset'?'새 비밀번호 확인':'비밀번호 확인';
+        $('emSetGo').disabled=true; $('emSetGo').textContent='다음'; setTimeout(function(){ $('emSp1').focus(); },30); }
       if(m==='code'){ $('emCode').value=''; setTimeout(function(){ $('emCode').focus(); },30); } }
+    /* 실시간 비교: 6자 이상 + 위아래 같을 때만 「다음」 */
+    function setCheck(){ var a=$('emSp1').value, b=$('emSp2').value, ok=a.length>=6&&a===b;
+      $('emSetGo').disabled=!ok; if(!a) msg(''); else if(a.length<6) msg('비밀번호는 6자 이상으로 정해 주세요.',true); else if(b&&a!==b) msg('비밀번호가 서로 다릅니다.',true); else msg(ok?'':'비밀번호를 한 번 더 입력해 주세요.'); }
     function busy(b,on,txt){ b.disabled=on; if(txt) b.textContent=txt; }
-    function sendCode(why){ var b=why==='reset'?$('emForgot'):$('emGo'), t0=b.textContent; busy(b,true,'보내는 중…'); msg('');
+    function sendCode(w){ why=w; var b=w==='reset'?$('emForgot'):$('emGo'), t0=b.textContent; busy(b,true,'보내는 중…'); msg('');
       return sb.auth.signInWithOtp({email:email,options:{shouldCreateUser:true}}).then(function(r){ busy(b,false,t0); if(r.error){ msg(r.error.message,true); return; } tryMark('email'); show('code'); msg(email+' 로 인증번호를 보냈습니다. 메일함(스팸함 포함)을 확인하세요.'); }); }
+    /* 2026-11-26 이메일로 가입 또는 로그인: 위 로그인 버튼들이 위로 접혀 사라진 뒤 이메일 단계 · 「다른 계정으로 로그인」 → 이메일 단계를 닫고 버튼들을 다시 펼친다 */
+    function fold(on){ var lg=el.querySelector('.lg'), f=$('lgFold'), x=$('emBox');
+      if(on){ lg.classList.add('em'); f.inert=true; setTimeout(function(){ f.classList.add('gone'); x.style.display='block'; x.classList.add('emin'); $('emIn').focus(); },380); }   /* 접힌 뒤에는 자리도 0 */
+      else { x.style.display='none'; x.classList.remove('emin'); show(''); msg(''); f.classList.remove('gone'); void f.offsetHeight; lg.classList.remove('em'); f.inert=false; } }
     el.querySelectorAll('[data-p]').forEach(function(b){ b.onclick=function(){ var p=b.dataset.p;
-      if(p==='email'){ var x=$('emBox'); x.style.display=x.style.display==='none'?'block':'none'; if(x.style.display==='block') $('emIn').focus(); return; }
+      if(p==='email'){ fold(true); return; }
       tryMark(p); ls('ocan_buy_return_url',location.pathname+cleanSearch()); ls('ocan_buy_return_ts',String(Date.now()));
       if(p==='naver'){ location.href=C.SUPABASE_URL+'/functions/v1/naver-auth?redirect='+encodeURIComponent(back()); return; }
       sb.auth.signInWithOAuth({provider:p,options:{redirectTo:back(),queryParams:p==='google'?{prompt:'select_account'}:undefined}}); }; });
@@ -76,20 +96,27 @@ window.OC=(function(){
     function goEmail(){ var v=$('emIn').value.trim(); if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){ msg('이메일 주소를 확인해 주세요.',true); return; } email=v;
       var b=$('emGo'); busy(b,true,'확인 중…');
       sb.rpc('check_email_auth_mode',{p_email:v}).then(function(r){ busy(b,false,'계속');
-        if(!r.error&&r.data==='password'){ show('login'); msg(''); return; }
-        sendCode('first'); }, function(){ busy(b,false,'계속'); sendCode('first'); }); }
+        if((!r.error&&r.data==='password')||pwHas(v)){ show('login'); msg(''); return; }
+        sendCode('first'); }, function(){ busy(b,false,'계속'); if(pwHas(v)){ show('login'); msg(''); return; } sendCode('first'); }); }
     /* 2) 인증번호 확인 → 비밀번호 설정 칸 */
     function goCode(){ var v=$('emCode').value.trim(); if(!/^\d{6,10}$/.test(v)){ msg('메일로 받은 숫자 코드를 넣어 주세요.',true); return; }
       var b=$('emCodeGo'); busy(b,true,'확인 중…');
       sb.auth.verifyOtp({email:email,token:v,type:'email'}).then(function(r){ busy(b,false,'확인'); if(r.error){ msg('코드가 맞지 않거나 만료되었습니다. ('+r.error.message+')',true); return; }
         loginDone('email'); show('set'); msg('인증되었습니다. 다음 로그인부터 쓸 비밀번호를 정해 주세요.'); }); }
+    /* 3) 비밀번호 저장: 서버 저장이 끝난 뒤에만 기기 기록 · 다음 단계 */
+    function goSet(){ var a=$('emSp1').value, b=$('emSetGo'); if(a.length<6||a!==$('emSp2').value){ setCheck(); return; } busy(b,true,'저장 중…');
+      sb.auth.updateUser({password:a,data:{password_configured:true}}).then(function(r){ if(r.error){ busy(b,false,'다음'); msg('비밀번호를 저장하지 못했습니다. ('+r.error.message+')',true); return; } pwAdd(email); location.reload(); },
+        function(e){ busy(b,false,'다음'); msg('비밀번호를 저장하지 못했습니다. 잠시 뒤 다시 눌러 주세요.',true); }); }
     /* 3) 비밀번호 로그인 · 비밀번호 설정 */
     function goPw(){ var v=$('emPw').value, b=$('emPwGo'), t0=b.textContent;
-      if(mode==='set'){ if(v.length<6){ msg('비밀번호는 6자 이상으로 정해 주세요.',true); return; } busy(b,true,'저장 중…');
-        sb.auth.updateUser({password:v,data:{password_configured:true}}).then(function(r){ if(r.error){ busy(b,false,t0); msg('비밀번호를 저장하지 못했습니다. ('+r.error.message+')',true); return; } location.reload(); }); return; }
       if(!v){ msg('비밀번호를 넣어 주세요.',true); return; } busy(b,true,'로그인 중…');
-      sb.auth.signInWithPassword({email:email,password:v}).then(function(r){ if(r.error){ busy(b,false,t0); msg('비밀번호가 맞지 않습니다. 잊으셨다면 아래에서 이메일 인증으로 재설정하세요.',true); return; } loginDone('email'); location.reload(); }); }
-    $('emGo').onclick=goEmail; $('emCodeGo').onclick=goCode; $('emPwGo').onclick=goPw;
+      sb.auth.signInWithPassword({email:email,password:v}).then(function(r){ if(r.error){ busy(b,false,t0); msg('비밀번호가 맞지 않습니다. 잊으셨다면 아래에서 이메일 인증으로 재설정하세요.',true); return; } loginDone('email'); pwAdd(email);
+        var u=r.data&&r.data.user, fix=(u&&!(u.user_metadata&&u.user_metadata.password_configured))?sb.auth.updateUser({data:{password_configured:true}}).then(null,function(){}):Promise.resolve();   /* 표시가 빠진 계정은 채워 둔다 */
+        fix.then(function(){ location.reload(); }); }); }
+    $('emOther').onclick=function(){ fold(false); };
+    $('emGo').onclick=goEmail; $('emCodeGo').onclick=goCode; $('emPwGo').onclick=goPw; $('emSetGo').onclick=goSet;
+    ['emSp1','emSp2'].forEach(function(id){ $(id).oninput=setCheck; $(id).onkeydown=function(e){ if(e.key==='Enter'&&!$('emSetGo').disabled) goSet(); }; });
+    el.querySelectorAll('[data-eye]').forEach(function(e){ e.onclick=function(){ var i=$(e.dataset.eye), on=i.type==='password'; i.type=on?'text':'password'; e.textContent=on?'숨기기':'보기'; e.setAttribute('aria-pressed',on?'true':'false'); }; });
     $('emForgot').onclick=function(){ sendCode('reset'); };
     $('emEye').onclick=function(){ var pw=$('emPw'), on=pw.type==='password'; pw.type=on?'text':'password'; this.textContent=on?'숨기기':'보기'; this.setAttribute('aria-pressed',on?'true':'false'); };
     $('emIn').onkeydown=function(e){ if(e.key==='Enter') goEmail(); };
@@ -216,7 +243,17 @@ footer p a{color:inherit}
 .bridge .btn{height:36px;padding:0 14px;font-size:13px;flex:none}
 .stt{font-size:16px;font-weight:700;letter-spacing:-.02em;margin:0 0 14px}
 .sec2{border-top:1px solid var(--rowline);margin-top:24px;padding-top:22px}
-.lg{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}   /* 칸 폭을 카드 안쪽으로 고정: 이메일 입력칸이 펼쳐질 때 버튼들이 카드 밖으로 밀리던 원인 */
+.lg{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:70%;min-width:min(100%,270px);max-width:420px;margin-left:auto;margin-right:auto}   /* 2026-11-26 상자 안 로그인 영역은 약 70% 폭 · 가운데 (상자 크기는 그대로) */
+.lgfold{display:grid;grid-template-rows:1fr;opacity:1;transform:none;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .3s ease,transform .38s cubic-bezier(.4,0,.2,1),margin .38s}
+.lgfold-in{min-height:0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding-top:12px;margin-top:-12px}
+.lg.em .lgfold{grid-template-rows:0fr;opacity:0;transform:translateY(-8px);margin-top:-8px;pointer-events:none}
+.lg.em .lgfold-in{padding-top:0;margin-top:0}
+.lgfold.gone{display:none}
+#emBox.emin{animation:emIn .32s cubic-bezier(.2,.7,.2,1) both}@keyframes emIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.emother{display:block;margin:14px auto 0;padding:4px 6px;border:0;background:none;font-size:12.5px;color:#8B8EAD;letter-spacing:-.03em;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.lgfold{transition:none}#emBox.emin{animation:none}}
+/* 2026-11-26 이메일 자동완성 하늘색 바탕 → 흰색 */
+.lg input:-webkit-autofill,.lg input:-webkit-autofill:hover,.lg input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 1000px #FFFFFF inset!important;background-color:#FFFFFF!important;-webkit-text-fill-color:#20213B!important}   /* 칸 폭을 카드 안쪽으로 고정: 이메일 입력칸이 펼쳐질 때 버튼들이 카드 밖으로 밀리던 원인 */
 .lg>*{min-width:0;max-width:100%}
 .lg-warn{margin:0 0 4px;font-size:13.5px;font-weight:600;line-height:1.5;color:#D92D20;word-break:keep-all;overflow-wrap:break-word}
 .lgb{display:flex;align-items:center;justify-content:center;height:46px;width:100%;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:14.5px;font-weight:600;color:var(--ink)}
@@ -240,6 +277,13 @@ footer p a{color:inherit}
 .pms button.pm-kakao{background:#FEE500;border-color:#FEE500;color:#191919}
 .pms button.pm-naver{background:#03C75A;border-color:#03C75A;color:#fff}
 .pms button.on{background:#20213B;border-color:#20213B;color:#fff}
+/* 2026-11-26 「카드 · 간편결제」 하이라이트 링: 홈페이지 하단 바 「최저가로 시작하기」(#ocBar .go .hl)와 같은 그라데이션 · 회전 · 속도 */
+.pms button.pm-card{position:relative}
+.pms .pm-card .hl{position:absolute;inset:-4px;border-radius:999px;padding:1.5px;overflow:hidden;pointer-events:none;opacity:0;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ocHlFade 3.2s linear infinite}
+.pms .pm-card .hl::before{content:"";position:absolute;top:50%;left:50%;width:300%;aspect-ratio:1/1;background:conic-gradient(#6E62B4,#A594F9,#D9EDB6,#98E6D4,#FFFFFF,#8F82CA,#6E62B4);transform:translate(-50%,-50%) rotate(0deg);animation:ocHlSpin 3.2s linear infinite}
+@keyframes ocHlSpin{0%{transform:translate(-50%,-50%) rotate(0deg)}37.5%,100%{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes ocHlFade{0%{opacity:0}5%,30%{opacity:1}37.5%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pms .pm-card .hl{display:none}}
 .pms button.pm-kakao.on,.pms button.pm-naver.on{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--ink)}
 .pms button.pm-kakao.on{background:#FEE500;border-color:#FEE500;color:#191919}.pms button.pm-naver.on{background:#03C75A;border-color:#03C75A;color:#fff}
 .rvn{font-size:12.5px;color:var(--muted);margin:8px 0 0}
@@ -320,6 +364,8 @@ main.st-in .acct{margin-top:auto;padding-top:56px}
 .lgrec::after{content:"";position:absolute;left:50%;bottom:-4px;width:7px;height:7px;margin-left:-4px;background:#F7F8FC;border-right:1px solid rgba(32,33,59,.07);border-bottom:1px solid rgba(32,33,59,.07);transform:rotate(45deg)}
 .lg [hidden]{display:none!important}
 .pwrow .pweye{flex:none;height:42px;padding:0 4px;border:0;background:none;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:-.03em}
+.emsp2{margin-top:12px}
+#emSetW .emsetgo{display:flex;width:100%;height:46px;margin-top:12px;background:var(--ink);color:#fff;font-size:14.5px}#emSetW .emsetgo:disabled{background:#D5D7E2;color:#fff;transform:none}
 .emforgot{display:block;margin:10px 0 0;padding:0;border:0;background:none;font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;letter-spacing:-.03em;text-align:left}
 .emmsg{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--sub);letter-spacing:-.03em;word-break:keep-all}
 .emmsg:empty{display:none}
@@ -370,7 +416,7 @@ main.st-out #planTabs{margin-top:10px}
 </div>
 <div class="card" id="payCard">
 <div id="step1"><h2 class="stt">학습할 계정으로<br>로그인해주세요.</h2><div id="authBox"></div></div>
-<div class="sec2" id="step2" style="display:none"><h2 class="stt">결제 수단 및 특전 확인</h2>
+<div class="sec2" id="step2" style="display:none"><h2 class="stt">결제 수단을 선택해주세요.</h2>
   <p class="paysum" id="paySum"></p>
   <p id="planNote" hidden></p>
   <div class="pms" id="pm"></div>
@@ -544,7 +590,9 @@ main.st-out #planTabs{margin-top:10px}
       clearTimeout(waitT); stage('in');
       /* 결제 수단을 고르면 다음 단계(추천코드 · 휴대폰 번호)가 열린다 */
       var sel=null, pmBox=document.getElementById('pm');
-      pms.forEach(function(k){ var b=document.createElement('button'); b.type='button'; b.textContent=PM[k].label; b.className='pm-'+k; b.setAttribute('aria-pressed','false'); b.onclick=function(){ sel=k; [].forEach.call(pmBox.children,function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); }); b.classList.add('on'); b.setAttribute('aria-pressed','true'); reveal('st2'); if(telOk()) reveal('st3'); }; pmBox.appendChild(b); if(k==='card'){ var nt=document.createElement('span'); nt.className='pm-note'; nt.textContent='카카오페이, 토스, 시중은행 등 결제가능'; pmBox.appendChild(nt); } });
+      pms.forEach(function(k){ var b=document.createElement('button'); b.type='button'; if(k==='card') b.innerHTML=PM[k].label+'<i class="hl" aria-hidden="true"></i>'; else b.textContent=PM[k].label; b.className='pm-'+k; b.setAttribute('aria-pressed','false'); b.onclick=function(){ sel=k; [].forEach.call(pmBox.children,function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); }); b.classList.add('on'); b.setAttribute('aria-pressed','true'); reveal('st2'); if(telOk()) reveal('st3'); }; pmBox.appendChild(b); if(k==='card'){ var nt=document.createElement('span'); nt.className='pm-note'; nt.textContent='카카오페이, 토스, 시중은행 등 결제가능'; pmBox.appendChild(nt); } });
+      /* 2026-11-26 선택지가 「카드 · 간편결제」 하나뿐: 처음부터 고른 상태로, 추천코드 줄 · 휴대폰 번호 · 특전 · 환불 동의 · 결제하기까지 한 화면에 (추천코드 칸은 접힌 그대로, 결제 때 검사는 그대로) */
+      if(PM.card){ var cb=pmBox.querySelector('.pm-card'); sel='card'; cb.classList.add('on'); cb.setAttribute('aria-pressed','true'); reveal('st2',true); reveal('st3',true); }
       if(REV){ var rn=document.createElement('p'); rn.className='rvn'; rn.textContent='카드 결제는 카드사 심사 중이라 지금은 테스트 결제창이 열립니다. 실제로 돈이 나가지 않고 이용권도 발급되지 않습니다.'; pmBox.parentNode.insertBefore(rn,pmBox.nextSibling); }
       var bp=document.getElementById('bumpIn'); bp.onchange=function(){ document.getElementById('bumpNote').hidden=bp.checked; };
       var rf=document.getElementById('rfAgree'), pb=document.getElementById('payBtn'); pb.disabled=!rf.checked; rf.onchange=function(){ pb.disabled=!rf.checked; };
