@@ -14,7 +14,21 @@
 <script>
 /* 공용: Supabase 로그인 */
 window.OC=(function(){
-  var C=window.OCAN_CONFIG||{}; var sb=(C.SUPABASE_URL&&C.SUPABASE_ANON_KEY&&window.supabase)?window.supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY,{auth:{flowType:'pkce',persistSession:true}}):null;
+  /* 2026-11-26 지령서 TASK #005: 앱 → 결제창 로그인 넘겨받기 (#at=<access>&rt=<refresh>)
+     · 주소창 해시는 읽자마자 지운다 · 진짜 refresh token 이 있을 때만 setSession (가짜 문자열 금지)
+     · 이 창은 넘겨받은 세션을 저장하지도(persistSession:false) 자동 갱신하지도(autoRefreshToken:false) 않는다 → 앱의 refresh token 이 돌아가 앱 로그인이 풀리는 일 방지
+     · 같은 탭 안에서는(토스 결제창을 다녀와도) sessionStorage 의 ocan_handoff_at · ocan_handoff_user(JWT 에서 꺼낸 id · email · provider, 만료 시각)를 로그인으로 인정 */
+  var HOH=(function(){
+    var h=new URLSearchParams(location.hash.replace(/^#/,'')), at=h.get('at'), rt=h.get('rt');
+    if(at){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} }
+    function dec(t){ try{ var p=String(t).split('.')[1].replace(/-/g,'+').replace(/_/g,'/'); p+='==='.slice((p.length+3)%4); return JSON.parse(decodeURIComponent(escape(atob(p)))); }catch(e){ return null; } }
+    function ss(k,v){ try{ if(v===undefined) return sessionStorage.getItem(k); if(v===null) sessionStorage.removeItem(k); else sessionStorage.setItem(k,v); }catch(e){ return null; } }
+    if(at){ var pl=dec(at); if(pl&&pl.sub&&pl.exp*1000>Date.now()){ ss('ocan_handoff_at',at); ss('ocan_handoff_user',JSON.stringify({id:pl.sub,email:pl.email||'',app_metadata:pl.app_metadata||{},user_metadata:pl.user_metadata||{},exp:pl.exp})); } else rt=null; }
+    var sat=ss('ocan_handoff_at'), su=null; try{ su=JSON.parse(ss('ocan_handoff_user')||'null'); }catch(e){}
+    if(sat&&(!su||!su.exp||su.exp*1000<=Date.now())){ ss('ocan_handoff_at',null); ss('ocan_handoff_user',null); sat=null; su=null; }
+    return { at:sat, rt:(at&&sat===at)?rt:null, user:su, clear:function(){ ss('ocan_handoff_at',null); ss('ocan_handoff_user',null); } };
+  })();
+  var C=window.OCAN_CONFIG||{}; var sb=(C.SUPABASE_URL&&C.SUPABASE_ANON_KEY&&window.supabase)?window.supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY,{auth:HOH.at?{flowType:'pkce',persistSession:false,autoRefreshToken:false}:{flowType:'pkce',persistSession:true}}):null;
   /* 2026-11-26 지령서 TASK #002
      · 소셜 로그인은 지금 보던 결제 주소(plan · ref 등 쿼리 포함)로 돌아오게 하고, 혹시 메인 홈(/)으로 떨어져도 홈의 복귀 가드가 이 주소로 되돌린다 (ocan_buy_return_url)
      · 이메일: 처음 한 번만 인증번호 → 비밀번호 설정, 다음부터는 이메일 + 비밀번호 (RPC check_email_auth_mode)
@@ -99,16 +113,19 @@ window.OC=(function(){
     return u+(u.indexOf('?')>=0?'&':'?')+'payment_done=1'+(HO&&HO.resume_step?'&resume_step='+encodeURIComponent(HO.resume_step):''); }
   /* 토스 · 포트원 성공/실패 주소에 붙일 앱 정보 */
   function hoQuery(){ if(!HO) return ''; return 'from=app'+(HO.resume_step?'&resume_step='+encodeURIComponent(HO.resume_step):'')+(HO.app_return?'&app_return='+encodeURIComponent(HO.app_return):''); }
-  var hoAt=(function(){ var h=new URLSearchParams(location.hash.replace(/^#/,'')), at=h.get('at'); if(at){ history.replaceState(null,'',location.pathname+location.search); } return at; })();
   /* 네이버 콜백(token_hash) */
   var q=new URLSearchParams(location.search);
   var ready=Promise.resolve();
   if(sb&&q.get('token_hash')) ready=sb.auth.verifyOtp({token_hash:q.get('token_hash'),type:q.get('type')||'magiclink'}).then(function(){ history.replaceState(null,'',location.pathname+cleanSearch()); });
-  if(sb&&hoAt) ready=ready.then(function(){ return sb.auth.setSession({access_token:hoAt,refresh_token:'app-handoff'}).catch(function(){}); });
+  if(sb&&HOH.at&&HOH.rt) ready=ready.then(function(){ return sb.auth.setSession({access_token:HOH.at,refresh_token:HOH.rt}).catch(function(){}); });
   return { sb:sb, C:C, loginHTML:loginHTML, wire:wire, ready:ready, HO:HO, appBack:appBack, hoQuery:hoQuery,
-    user:function(){ return ready.then(function(){ return sb?sb.auth.getSession().then(function(r){ var u=r.data.session&&r.data.session.user||null; return u?noteLogin(u):null; }):null; }); },
-    token:function(){ return sb.auth.getSession().then(function(r){ return r.data.session&&r.data.session.access_token; }); },
-    signOut:function(){ return sb.auth.signOut().then(function(){ location.reload(); }); } };
+    user:function(){ return ready.then(function(){ return sb?sb.auth.getSession().then(function(r){ var u=r.data.session&&r.data.session.user||null; return u?noteLogin(u):(HOH.user||null); }):null; }); },
+    token:function(){ return ready.then(function(){ return sb.auth.getSession(); }).then(function(r){ return (r.data.session&&r.data.session.access_token)||HOH.at||null; }); },
+    /* 로그인 토큰으로 RPC (세션이 비어 있어도 넘겨받은 토큰 사용) */
+    rpc:function(name,args){ var self=this; return self.token().then(function(tk){ return fetch(C.SUPABASE_URL+'/rest/v1/rpc/'+name,{method:'POST',headers:{'content-type':'application/json',apikey:C.SUPABASE_ANON_KEY,authorization:'Bearer '+(tk||C.SUPABASE_ANON_KEY)},body:JSON.stringify(args||{})}).then(function(r){ return r.json().then(function(d){ return r.ok?{data:d}:{data:null,error:d}; }); }); }); },
+    handoff:HOH,
+    /* 넘겨받은 로그인은 서버 로그아웃을 하지 않는다(앱 로그인까지 풀림) → 이 창에서만 지운다 */
+    signOut:function(){ if(HOH.at){ HOH.clear(); try{ localStorage.removeItem('ocan_app_handoff'); sessionStorage.removeItem('ocan_app_handoff'); }catch(e){} location.replace(location.pathname+location.search.replace(/([?&])from=app(&|$)/,'$1')); return Promise.resolve(); } return sb.auth.signOut().then(function(){ location.reload(); }); } };
 })();
 </script>
 <style>
@@ -279,7 +296,7 @@ footer p a{color:inherit}
         head('ok','결제가 완료되었습니다','이용권이 계정에 발급되었습니다.'+(endTxt?'<br><b>'+endTxt+'</b>까지 이용할 수 있습니다.':''));
         var tier=lic.tier||lic.plan;
         var dynP=(tier==='dyn'||tier==='3m')?Promise.resolve(true):(tier==='plus')?Promise.resolve(false):(Number(q.get('amount'))===146700)?Promise.resolve(true)
-          :OC.sb.rpc('my_license').then(function(r){ var l=r.data||{}; return l.tier==='dyn'||l.plan==='dyn'||l.plan==='3m'; }).catch(function(){ return false; });
+          :OC.rpc('my_license').then(function(r){ var l=r.data||{}; return l.tier==='dyn'||l.plan==='dyn'||l.plan==='3m'; }).catch(function(){ return false; });
         dynP.then(function(isDyn){ paint(isDyn); });
       });
   }).catch(function(e){ head('no','오류가 발생했습니다',esc(e)); });
@@ -292,8 +309,8 @@ footer p a{color:inherit}
     B.innerHTML='<div class="acts"><a class="btn btn-ink ad-go" id="adGo" href="'+url.replace(/"/g,'&quot;')+'">지금 바로 이동</a></div>'
       +'<p class="contact">앱이 열리지 않으면 앱을 직접 열어 주세요. 이용권은 이 계정에 이미 발급되었습니다.'+(oid?' 주문번호 '+esc(oid):'')+'</p>';
     try{ localStorage.removeItem('ocan_app_handoff'); sessionStorage.removeItem('ocan_app_handoff'); }catch(e){}
-    var t=setInterval(function(){ n--; var e=document.getElementById('adT'); if(e) e.textContent=String(Math.max(n,1)); if(n<=0){ clearInterval(t); location.href=url; } },1000);
-    document.getElementById('adGo').onclick=function(){ clearInterval(t); };
+    var t=setInterval(function(){ n--; var e=document.getElementById('adT'); if(e) e.textContent=String(Math.max(n,1)); if(n<=0){ clearInterval(t); OC.handoff.clear(); location.href=url; } },1000);
+    document.getElementById('adGo').onclick=function(){ clearInterval(t); OC.handoff.clear(); };
   }
   function paint(isDyn){
     if(OC.HO){ appDone(); return; }
