@@ -72,7 +72,7 @@
     }, 0);
   }
 
-  /* buy 링크에 ref · utm 이어 붙이기 */
+  /* buy · start(2026-11-27 정식 가입 · 결제 화면) 링크에 ref · utm 이어 붙이기 */
   function withAttr(href) {
     var a = read(); if (!a.ref && !UTM.some(function (k) { return a[k]; })) return href;
     var hash = '', i = href.indexOf('#'); if (i >= 0) { hash = href.slice(i); href = href.slice(0, i); }
@@ -81,7 +81,7 @@
     UTM.forEach(function (k) { if (a[k] && !qs.has(k)) qs.set(k, a[k]); });
     var s = qs.toString(); return base + (s ? '?' + s : '') + hash;
   }
-  function isBuy(a) { var h = a.getAttribute('href') || ''; return /^(\.\/|\/)?buy(\.html)?(\?|#|$)/.test(h); }
+  function isBuy(a) { var h = a.getAttribute('href') || ''; return /^(\.\/|\/)?(buy|start)(\.html)?(\?|#|$)/.test(h); }
   function patchLinks() { [].forEach.call(document.querySelectorAll('a[href]'), function (a) { if (isBuy(a)) a.setAttribute('href', withAttr(a.getAttribute('href'))); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', patchLinks); else patchLinks();
   document.addEventListener('click', function (e) { var a = e.target && e.target.closest && e.target.closest('a[href]'); if (a && isBuy(a)) a.setAttribute('href', withAttr(a.getAttribute('href'))); }, true);

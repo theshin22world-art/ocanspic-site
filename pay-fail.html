@@ -55,7 +55,7 @@ footer i{font-style:normal;margin:0 6px}
     <h1>결제가 완료되지 않았습니다</h1>
     <p class="sub" id="p">결제창에서 취소되었거나 승인되지 않았습니다.</p>
     <p class="code" id="c" hidden></p>
-    <div class="acts"><a class="btn pri" id="retry" href="buy">다시 시도하기</a><a class="btn line" id="ask" href="mailto:wichonl@vibivi.co.kr?subject=%EA%B2%B0%EC%A0%9C%20%EB%AC%B8%EC%9D%98">문의하기</a></div>
+    <div class="acts"><a class="btn pri" id="retry" href="start">다시 시도하기</a><a class="btn line" id="ask" href="mailto:wichonl@vibivi.co.kr?subject=%EA%B2%B0%EC%A0%9C%20%EB%AC%B8%EC%9D%98">문의하기</a></div>
   </div>
 </main>
 <footer><a href="./terms">이용약관</a><i aria-hidden="true">·</i><a href="./privacy">개인정보처리방침</a></footer>
@@ -68,7 +68,8 @@ footer i{font-style:normal;margin:0 6px}
   /* 다시 시도: 고르던 요금제 · 앱에서 온 정보(from=app 등)를 그대로 */
   var keep=new URLSearchParams(); ['plan','from','resume_step','app_return','ref'].forEach(function(k){ if(q.get(k)) keep.set(k,q.get(k)); });
   try{ if(!keep.get('plan')){ var sp=sessionStorage.getItem('ocan_buy_plan'); if(sp) keep.set('plan',sp); } }catch(e){}
-  var s=keep.toString(); if(s) document.getElementById('retry').href='buy?'+s;
+  if(keep.get('plan')) keep.set('step','checkout');   /* 2026-11-27 다시 시도는 start 의 결제 단계(Step 3)로 바로 */
+  var s=keep.toString(); if(s) document.getElementById('retry').href='start?'+s;
   if(q.get('orderId')||q.get('paymentId')) document.getElementById('ask').href='mailto:wichonl@vibivi.co.kr?subject='+encodeURIComponent('결제 문의 '+(q.get('orderId')||q.get('paymentId')));
 })();
 </script>
