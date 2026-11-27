@@ -77,7 +77,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}   /* 휴대폰 브라�
 @keyframes ohBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
 /* ---------- 히어로 (섹션 1+2) ---------- */
-.oh .hero{position:relative;margin-inline:var(--hm);margin-top:0;height:calc(100svh - var(--hm));min-height:620px;border-radius:0 0 var(--r) var(--r);overflow:hidden;background:#15171b;color:#fff;isolation:isolate}
+.oh .hero{position:relative;margin-inline:var(--hm);margin-top:calc(var(--hm) * .85);height:calc(100svh - var(--hm) * 1.85);min-height:620px;border-radius:var(--r);overflow:hidden;background:#15171b;color:#fff;isolation:isolate}
 .oh .hero .slides>*{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity 1.17s ease,transform 5.83s linear}
 .oh .hero .slides>.on{opacity:1;transform:scale(1)}
 .oh .hero .slides>.gbg{transform:none;overflow:hidden;background:#fff}
@@ -1032,7 +1032,7 @@ function scProgress(){const r=sc.getBoundingClientRect();return clamp(-r.top/Mat
 function jump(i){const top=sc.getBoundingClientRect().top+scrollY,len=sc.offsetHeight-innerHeight;scrollTo({top:Math.round(top+len*(i+.35)/4),behavior:RM?'auto':'smooth'})}
 dots.forEach((b,i)=>b.addEventListener('click',()=>jump(i)));
 
-/* 내비: 히어로 안에서는 히어로 윗변을 따라오고, 그 아래에선 화면 위 18px 에 붙는다 (2026-11-27 히어로를 화면 맨 위에 붙여 처음부터 18px) */
+/* 내비: 히어로 안에서는 히어로 윗변을 따라오고, 그 아래에선 화면 위 18px 에 붙는다 (2026-11-27 히어로 위 흰 공백 15% 축소, 박스는 그만큼 위로 늘림) */
 const nav=$('#nav'),bub=$('#nav .bubble'),mob=matchMedia('(max-width:759px)');
 function onScroll(){
   const vh=innerHeight,hr=hero.getBoundingClientRect();
