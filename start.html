@@ -401,7 +401,7 @@ select.box{appearance:none;-webkit-appearance:none;background:#fff url("data:ima
 <!-- Step 1 -->
 <main class="view" id="vAuth">
   <section class="auth">
-    <h1 id="authHeading">계정을 만들어 시작하기</h1>
+    <h1 id="authHeading">로그인하기</h1>
     <button type="button" class="cap kakao" data-p="kakao"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#191919" d="M12 3.6c-5.1 0-9.2 3.2-9.2 7.2 0 2.6 1.7 4.8 4.3 6.1l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.4 0 .9.1 1.3.1 5.1 0 9.2-3.2 9.2-7.2S17.1 3.6 12 3.6z"/><text x="12" y="12.6" text-anchor="middle" font-size="4.6" font-weight="800" fill="#FEE500" font-family="Arial,sans-serif">TALK</text></svg></span>카카오톡으로 계속하기</button>
     <div class="or"><i></i><button type="button" id="moreTg" aria-expanded="false" aria-controls="more">다른 방법으로 로그인하기<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg></button><i></i></div>
     <div class="more" id="more" inert><div class="more-in">
@@ -423,7 +423,7 @@ select.box{appearance:none;-webkit-appearance:none;background:#fff url("data:ima
       </div>
     </div></div>
     <p class="amsg" id="aMsg" role="status"></p>
-    <p class="sw"><span id="swTxt">이미 계정이 있으신가요? </span><button type="button" class="link-blue" id="swBtn">로그인하기</button></p>
+    <p class="sw"><span id="swTxt">아직 계정이 없으신가요? </span><button type="button" class="link-blue" id="swBtn">계정 만들기</button></p>
   </section>
 </main>
 
@@ -567,9 +567,9 @@ select.box{appearance:none;-webkit-appearance:none;background:#fff url("data:ima
   /* ---------- Step 1: 로그인 ---------- */
   var more=$('more'), moreTg=$('moreTg');
   moreTg.onclick=function(){ var on=moreTg.getAttribute('aria-expanded')!=='true'; moreTg.setAttribute('aria-expanded',on?'true':'false'); more.classList.toggle('open',on); more.inert=!on; };
-  var loginMode=false;
-  $('swBtn').onclick=function(){ loginMode=!loginMode; $('authHeading').textContent=loginMode?'로그인하기':'계정을 만들어 시작하기';
-    $('swTxt').textContent=loginMode?'아직 계정이 없으신가요? ':'이미 계정이 있으신가요? '; this.textContent=loginMode?'계정 만들기':'로그인하기'; };
+  /* 2026-11-27 로그인 · 가입 화면을 하나로(「로그인하기」). 「계정 만들기」는 카카오 계정 가입 화면부터 여는 카카오 로그인 (prompt=create) */
+  var KPROMPT='';
+  $('swBtn').onclick=function(){ KPROMPT='create'; document.querySelector('#vAuth [data-p="kakao"]').click(); KPROMPT=''; };
   function aMsg(t,bad){ var m=$('aMsg'); m.textContent=t||''; m.className='amsg'+(bad?' bad':''); }
   function backUrl(){ return location.origin+location.pathname+OC.cleanSearch(); }
   function saveReturn(){ var r=location.pathname+OC.cleanSearch(), ts=String(Date.now());
@@ -582,7 +582,7 @@ select.box{appearance:none;-webkit-appearance:none;background:#fff url("data:ima
     if(p==='naver'&&!C.NAVER_LOGIN){ aMsg('네이버 로그인은 곧 준비됩니다. 다른 방법으로 계속해 주세요.'); return; }
     OC.tryMark(p); saveReturn();
     if(p==='naver'){ location.href=C.SUPABASE_URL+'/functions/v1/naver-auth?redirect='+encodeURIComponent(backUrl()); return; }
-    OC.sb.auth.signInWithOAuth({provider:p,options:{redirectTo:backUrl(),queryParams:p==='google'?{prompt:'select_account'}:(p==='kakao'&&ls('ocan_force_login'))?{prompt:'login'}:undefined}}); }; });
+    OC.sb.auth.signInWithOAuth({provider:p,options:{redirectTo:backUrl(),queryParams:p==='google'?{prompt:'select_account'}:(p==='kakao'&&KPROMPT)?{prompt:KPROMPT}:(p==='kakao'&&ls('ocan_force_login'))?{prompt:'login'}:undefined}}); }; });
 
   /* 이메일: check_email_auth_mode → 비밀번호 1칸 / 처음이면 인증번호 → 비밀번호 + 확인 (buy.html 과 같은 서버 흐름) */
   var email='', mode='', why='first', PWE='ocan_pw_emails';
