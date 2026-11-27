@@ -1096,6 +1096,77 @@ fitShow();addEventListener('resize',fitSoon);addEventListener('load',fitSoon);if
 })();
 })();
 </script>
+<!-- 2026-11-27 그랜드 오픈 전 · 맨 아래 설치 버튼 4개(Windows · Mac · Android · iPhone)를 누르면 설치 대신 이메일 받는 바텀슬라이드.
+     오픈 날 이 블록(여기서 「그랜드 오픈 끝」 줄까지)을 통째로 지우면 버튼이 원래대로 설치로 갑니다. 이메일은 Supabase launch_emails 표에 쌓임 -->
+<style>
+#ocOpen .panel{padding:22px 24px calc(24px + env(safe-area-inset-bottom))}
+#ocOpen .x{top:14px;right:18px;background:#F1F0F8;color:#33355A}
+#ocOpen h3{margin:0;padding-right:40px;font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.25;color:#20213B}
+#ocOpen h3 span{display:block;font-size:17px;font-weight:700;color:#6E62B4;margin-top:4px}
+#ocOpen form{margin:20px 0 0}
+#ocOpen label{display:block;font-size:12.5px;font-weight:600;color:#8B8EAD;letter-spacing:-.02em;margin-bottom:7px}
+#ocOpen input{display:block;width:100%;box-sizing:border-box;height:48px;padding:0 14px;border:1px solid #E4E3F0;border-radius:12px;background:#fff;color:#20213B;font:inherit;font-size:16px;letter-spacing:-.01em;outline:none;transition:border-color .2s}
+#ocOpen input:focus{border-color:#20213B}
+#ocOpen .er{min-height:18px;margin:6px 0 0;font-size:12.5px;color:#E5484D;letter-spacing:-.02em}
+#ocOpen .go{width:100%;margin-top:6px;border:0;cursor:pointer;font-family:inherit}
+#ocOpen .go:disabled{opacity:.6;cursor:default}
+#ocOpen .nt{margin:12px 0 0;font-size:11.5px;line-height:1.55;color:#A3A5BD;letter-spacing:-.02em}
+#ocOpen .nt a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+#ocOpen .ok{margin:20px 0 4px;font-size:15px;line-height:1.6;color:#33355A;letter-spacing:-.02em}
+#ocOpen .ok b{display:block;font-size:17px;font-weight:800;color:#20213B;margin-bottom:4px}
+#ocOpen .ok em{font-style:normal;font-weight:700;color:#20213B;word-break:break-all}
+@media (max-width:600px){#ocOpen .panel{padding:20px 16px calc(20px + env(safe-area-inset-bottom))}#ocOpen .x{top:12px;right:14px}#ocOpen h3{font-size:23px}#ocOpen h3 span{font-size:16px}}
+</style>
+<div id="ocOpen" class="ocs" aria-hidden="true">
+  <div class="dim" data-close></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="ocOpT">
+    <button type="button" class="x" data-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h3 id="ocOpT">GRAND OPEN<span>26년 11월 30일</span></h3>
+    <form novalidate>
+      <label for="ocOpEm">51% 특전 받으실 이메일</label>
+      <input id="ocOpEm" type="email" inputmode="email" autocomplete="email" placeholder="example@email.com" maxlength="254" required>
+      <p class="er" role="alert"></p>
+      <button type="submit" class="go">등록하기</button>
+      <p class="nt">입력하신 이메일은 오픈 안내와 특전 발송에만 쓰고, 발송이 끝나면 지웁니다. <a href="privacy">개인정보처리방침</a></p>
+    </form>
+    <p class="ok" hidden><b>등록됐어요!</b><em></em><br>오픈하면 51% 특전을 이 메일로 보내 드릴게요.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var box=document.getElementById('launch'), el=document.getElementById('ocOpen'); if(!box||!el) return;
+  var SB='https://foumovwrenrydfnutlpl.supabase.co',
+      KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvdW1vdndyZW5yeWRmbnV0bHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxMTU2NTQsImV4cCI6MjEwNDY5MTY1NH0.AJ89jl_v-PITF1I9pVm7uT7XjCHLUUKz_pTuQJwAMpQ',
+      LK='ocan_launch_email_v1';
+  var f=el.querySelector('form'), inp=el.querySelector('input'), er=el.querySelector('.er'), btn=el.querySelector('.go'), ok=el.querySelector('.ok'), src=null, last=null;
+  function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
+  function done(v){ f.hidden=true; ok.hidden=false; ok.querySelector('em').textContent=v; }
+  function open(){
+    last=document.activeElement;
+    try{ sessionStorage.setItem('ocan_detail_kakao_v1','1'); }catch(e){}   /* 카톡 바텀슬라이드가 위에 겹쳐 뜨지 않게 */
+    var v=ls(LK); if(v) done(v);
+    el.classList.add('on'); el.setAttribute('aria-hidden','false');
+    if(!v && matchMedia('(hover:hover)').matches) setTimeout(function(){ try{ inp.focus({preventScroll:true}); }catch(e){} },380);
+  }
+  function close(){ if(!el.classList.contains('on')) return; el.classList.remove('on'); el.setAttribute('aria-hidden','true'); if(last&&last.focus) try{ last.focus({preventScroll:true}); }catch(e){} }
+  /* 설치 버튼 4개: 원래 설치 이동 · 안내 토스트보다 먼저 가로챔 */
+  box.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('[data-os]'); if(!a||!box.contains(a)) return; e.preventDefault(); e.stopPropagation(); src=a.getAttribute('data-os'); open(); },true);
+  [].forEach.call(el.querySelectorAll('[data-close]'),function(c){ c.addEventListener('click',close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  inp.addEventListener('input',function(){ er.textContent=''; });
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=inp.value.trim().toLowerCase();
+    if(v.length>254 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ er.textContent='이메일 주소를 다시 확인해 주세요.'; inp.focus(); return; }
+    btn.disabled=true; er.textContent='';
+    fetch(SB+'/rest/v1/launch_emails',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({email:v,src:src})})
+      .then(function(r){ if(!r.ok && r.status!==409) throw 0; ls(LK,v); done(v); })   /* 409 = 이미 등록된 이메일 → 완료로 */
+      .catch(function(){ er.textContent='잠시 후 다시 시도해 주세요.'; })
+      .then(function(){ btn.disabled=false; });
+  });
+})();
+</script>
+<!-- 그랜드 오픈 끝 -->
 <!-- 2026-11-27 쿠키 동의 (start.html 과 같은 모양 · 같은 저장 키 ocan_cookie_consent_v1 → 한 번 고르면 홈 · 시작하기 화면 모두 다시 묻지 않음) -->
 <style>
 #cookieBanner{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(1040px,calc(100vw - 32px));box-sizing:border-box;z-index:1050;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:12px 18px;box-shadow:0 6px 24px rgba(15,23,42,0.07);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--font);word-break:keep-all;transition:opacity .35s ease,transform .35s ease}
